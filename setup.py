@@ -15,7 +15,7 @@ def read(filename):
 setup(
     name="django-author",
     version=version,
-    description = "Django universal object author library",
+    description = "Update author and updated_by fields of models automatically",
     long_description=read('README.rst'),
     classifiers = [
         'Framework :: Django',
@@ -31,7 +31,7 @@ setup(
     download_url = r"https://github.com/lambdalisue/django-author/tarball/master",
     license = 'MIT',
     packages = find_packages(),
-    include_package_data = False,
+    include_package_data = True,
     zip_safe = True,
     install_requires=[
         'distribute',
