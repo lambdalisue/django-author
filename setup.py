@@ -15,12 +15,12 @@ def read(filename):
 setup(
     name="django-author",
     version=version,
-    description = "Update author and updated_by fields of models automatically",
+    description = "Add special User ForeignKey fields which update automatically",
     long_description=read('README.rst'),
     classifiers = [
         'Framework :: Django',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
+        'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP',
     ],
