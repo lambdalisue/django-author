@@ -32,9 +32,9 @@ sys.path.insert(0, test_dir)
 from django.test.utils import get_runner
 from django.conf import settings
 
-def runtests():
+def runtests(verbosity=1, interactive=True):
     TestRunner = get_runner(settings)
-    test_runner = TestRunner(verbosity=1, interactive=True)
+    test_runner = TestRunner(verbosity=verbosity, interactive=interactive)
     failures = test_runner.run_tests([])
     sys.exit(bool(failures))
 
