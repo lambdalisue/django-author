@@ -29,12 +29,13 @@ setup(
     author_email = "lambdalisue@hashnote.net",
     url=r"https://github.com/lambdalisue/django-author",
     download_url = r"https://github.com/lambdalisue/django-author/tarball/master",
-    license = 'BSD',
+    license = 'MIT',
     packages = find_packages(),
     include_package_data = False,
     zip_safe = True,
     install_requires=[
-        'setuptools',
-        'django>=1.2',
+        'distribute',
+        'setuptools-git',
         ],
+    test_suite = 'tests.runtests.runtests',
 )

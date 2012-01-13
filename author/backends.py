@@ -70,7 +70,6 @@ class AuthorSystemUserBackend(AuthorDefaultBackend):
     System user is detected with ``get_system_user``
 
     """
-    """Author default backend"""
 
     def _get_filter_kwargs(self):
         """get kwargs for filtering user"""

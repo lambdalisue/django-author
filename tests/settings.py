@@ -1,6 +1,6 @@
 # Django settings for weblog project.
 import os
-ROOT=os.path.join(os.path.dirname(__file__), '../../')
+ROOT=os.path.dirname(__file__)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -104,7 +104,7 @@ MIDDLEWARE_CLASSES = (
     'author.middlewares.AuthorDefaultBackendMiddleware',
 )
 
-ROOT_URLCONF = 'miniblog.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -121,9 +121,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'autocmd',
+    'blog',
     'author',
-    'miniblog.autocmd',
-    'miniblog.blog',
 )
 
 FIXTURE_DIRS = (
