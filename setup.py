@@ -4,9 +4,19 @@
 # Author:       Alisue
 # Last Change:  18-Mar-2011.
 #
+import sys
+import os
 from setuptools import setup, find_packages
 
 version = "0.1rc2"
+
+# Make sure the django.mo file also exists:
+try:
+    os.chdir('author')
+    from django.core.management.commands.compilemessages import compile_messages
+    compile_messages(sys.stderr)
+finally:
+    os.chdir('..')
 
 def read(filename):
     import os.path

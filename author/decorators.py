@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
@@ -39,9 +40,9 @@ def with_author(cls):
         return backend._get_user_model() if hasattr(backend, '_get_user_model') else User
 
     user_model = _get_user_model()
-    verbose_name_plural = cls._meta.verbose_name_plural
+    verbose_name_plural = cls._meta.object_name
     created_by = models.ForeignKey(user_model, verbose_name=_('author'), related_name='%s_create' % verbose_name_plural.lower(), null=True, blank=True)
-    updated_by = models.ForeignKey(user_model, verbose_name=_('last_updated_by'), related_name='%s_update' % verbose_name_plural.lower(), null=True, blank=True)
+    updated_by = models.ForeignKey(user_model, verbose_name=_('last updated by'), related_name='%s_update' % verbose_name_plural.lower(), null=True, blank=True)
 
     if not hasattr(cls, settings.AUTHOR_CREATED_BY_FIELD_NAME):
         cls.add_to_class(settings.AUTHOR_CREATED_BY_FIELD_NAME, created_by)

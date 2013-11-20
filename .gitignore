@@ -6,3 +6,8 @@
 # miniblog
 *.db
 .sass-cache/
+
+#locale
+*.mo
+
+*.pyc

@@ -1,0 +1,1 @@
+recursive-include author/locale *.po *.mo
