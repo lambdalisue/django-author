@@ -8,7 +8,7 @@ import sys
 import os
 from setuptools import setup, find_packages
 
-version = "0.1rc2"
+version = "0.2.0"
 
 # Make sure the django.mo file also exists:
 if 'sdist' in sys.argv:
