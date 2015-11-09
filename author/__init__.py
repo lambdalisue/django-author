@@ -38,8 +38,8 @@ try:
 except ImportError:
     from django.utils.importlib import import_module
 
-import backends
-import recivers
+from . import backends
+from . import recivers
 
 settings.AUTHOR_BACKEND = getattr(settings, 'AUTHOR_BACKEND', backends.AuthorDefaultBackend)
 
@@ -77,7 +77,11 @@ def load_backend(path):
 def get_backend_class():
     """get author backend"""
     backend = settings.AUTHOR_BACKEND
-    if isinstance(backend, basestring):
+    try:
+        is_backend_string = isinstance(backend, basestring)
+    except NameError:
+        is_backend_string = isinstance(backend, str)
+    if is_backend_string:
         return load_backend(backend)
     elif isinstance(backend, object) and hasattr(backend, 'get_user'):
         return backend

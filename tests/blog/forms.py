@@ -26,7 +26,7 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django import forms
 
-from models import Entry
+from .models import Entry
 
 class EntryForm(forms.ModelForm):
     class Meta:

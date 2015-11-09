@@ -31,8 +31,8 @@ from django.views.generic import UpdateView
 from django.views.generic import DeleteView
 from django.core.urlresolvers import reverse
 
-from models import Entry
-from forms import EntryForm
+from .models import Entry
+from .forms import EntryForm
 
 class EntryListView(ListView):
     model = Entry
