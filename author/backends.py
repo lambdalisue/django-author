@@ -26,7 +26,7 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from middlewares import get_request
+from .middlewares import get_request
 
 class AuthorDefaultBackend(object):
     """Author default backend

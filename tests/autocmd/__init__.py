@@ -27,7 +27,11 @@ __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.conf import settings
 from django.db import models
 from django.contrib.auth import models as auth_models
-from django.contrib.auth.management import create_superuser
+try:
+    from django.contrib.auth.management import create_superuser
+except ImportError:
+    def create_superuser(*args, **kwargs):
+        pass
 from django.db.models import signals
 
 settings.AUTO_CREATE_USER = getattr(settings, 'AUTO_CREATE_USER', True)
@@ -54,13 +58,13 @@ if settings.DEBUG and settings.AUTO_CREATE_USER:
             User.objects.get(username=USERNAME)
         except User.DoesNotExist:
             if verbosity > 0:
-                print '*' * 80
-                print 'Creating test user -- login: %s, password: %s' % (USERNAME, PASSWORD)
-                print '*' * 80
+                print('*' * 80)
+                print('Creating test user -- login: %s, password: %s' % (USERNAME, PASSWORD))
+                print('*' * 80)
             assert User.objects.create_superuser(USERNAME, EMAIL, PASSWORD)
         else:
             if verbosity > 0:
-                print 'Test user already exists. -- login: %s, password: %s' % (USERNAME, PASSWORD)
+                print('Test user already exists. -- login: %s, password: %s' % (USERNAME, PASSWORD))
     signals.post_syncdb.disconnect(
         create_superuser,
         sender=auth_models,

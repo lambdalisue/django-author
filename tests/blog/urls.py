@@ -24,9 +24,12 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.conf.urls.defaults import patterns, url
+try:
+    from django.conf.urls import patterns, include, url
+except ImportError: # in Django < 1.6
+    from django.conf.urls.defaults import patterns, include, url
 
-import views
+from . import views
 
 urlpatterns = patterns('',
     url(r'^$', views.EntryListView.as_view(), name='blog-entry-list'),

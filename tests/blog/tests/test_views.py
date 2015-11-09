@@ -52,14 +52,14 @@ class EntryViewTestCase(TestCase):
 
     def test_with_author(self):
         from django.contrib.auth.models import User
-        from ..models import Entry
+        from blog import models
         response = self.client.post('/create/', {
                 'title': 'foo',
                 'body': 'foo'
             })
         self.assertEqual(response.status_code, 200)
 
-        entry = Entry.objects.get(title='foo')
+        entry = models.Entry.objects.get(title='foo')
         self.assertEqual(entry.author, None)
         self.assertEqual(entry.updated_by, None)
 
@@ -72,7 +72,7 @@ class EntryViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
         admin = User.objects.get(username='admin')
-        entry = Entry.objects.get(title='barbar')
+        entry = models.Entry.objects.get(title='barbar')
         self.assertEqual(entry.author, admin)
         self.assertEqual(entry.updated_by, admin)
 
@@ -86,6 +86,6 @@ class EntryViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
         foo = User.objects.get(username='foo')
-        entry = Entry.objects.get(pk=entry.pk)
+        entry = models.Entry.objects.get(pk=entry.pk)
         self.assertEqual(entry.author, admin)
         self.assertEqual(entry.updated_by, foo)

@@ -1,6 +1,13 @@
 # Django settings for weblog project.
 import os
+import sys
+from decimal import Decimal
+import django
+
 ROOT=os.path.dirname(__file__)
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -154,3 +161,6 @@ LOGGING = {
         },
     }
 }
+
+if Decimal('.'.join([str(i) for i in django.VERSION[:2]])) >= Decimal('1.6'):
+    TEST_RUNNER = "django.test.runner.DiscoverRunner"

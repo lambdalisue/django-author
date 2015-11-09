@@ -24,5 +24,3 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from test_models import *
-from test_views import *

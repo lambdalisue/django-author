@@ -26,24 +26,24 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.test import TestCase
 
-from ..models import Entry
+from blog import models
 
 class EntryModelTestCase(TestCase):
     def test_creation(self):
         """blog.Entry: creation works correctly"""
-        entry = Entry(title='foo', body='bar')
+        entry = models.Entry(title='foo', body='bar')
         entry.full_clean()
         self.assertEqual(entry.title, 'foo')
         self.assertEqual(entry.body, 'bar')
 
         entry.save()
-        entry = Entry.objects.get(pk=entry.pk)
+        entry = models.Entry.objects.get(pk=entry.pk)
         self.assertEqual(entry.title, 'foo')
         self.assertEqual(entry.body, 'bar')
 
     def test_modification(self):
         """blog.Entry: modification works correctly"""
-        entry = Entry(title='foo', body='bar')
+        entry = models.Entry(title='foo', body='bar')
         entry.full_clean()
         entry.save()
 
@@ -51,14 +51,14 @@ class EntryModelTestCase(TestCase):
         entry.body = 'barbar'
         entry.full_clean()
         entry.save()
-        entry = Entry.objects.get(pk=entry.pk)
+        entry = models.Entry.objects.get(pk=entry.pk)
         self.assertEqual(entry.title, 'foofoo')
         self.assertEqual(entry.body, 'barbar')
 
     def test_validation(self):
         """blog.Entry: validation works correctly"""
         from django.core.exceptions import ValidationError
-        entry = Entry(title='foo', body='bar')
+        entry = models.Entry(title='foo', body='bar')
         entry.full_clean()
         entry.save()
 
@@ -76,17 +76,17 @@ class EntryModelTestCase(TestCase):
 
     def test_deletion(self):
         """blog.Entry: deletion works correctly"""
-        entry = Entry(title='foo', body='bar')
+        entry = models.Entry(title='foo', body='bar')
         entry.full_clean()
         entry.save()
 
-        num = Entry.objects.all().count()
+        num = models.Entry.objects.all().count()
         entry.delete()
-        self.assertEqual(Entry.objects.all().count(), num - 1)
+        self.assertEqual(models.Entry.objects.all().count(), num - 1)
 
     def test_with_author(self):
         """blog.Entry: with_author works correctly"""
-        entry = Entry(title='foo', body='bar')
+        entry = models.Entry(title='foo', body='bar')
         entry.full_clean()
         entry.save()
 
