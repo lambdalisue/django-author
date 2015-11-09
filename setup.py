@@ -6,18 +6,62 @@
 #
 import sys
 import os
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, Command
+from setuptools.command.sdist import sdist as original_sdist
 
 version = "0.3.0"
 
-# Make sure the django.mo file also exists:
-if 'sdist' in sys.argv:
-    try:
-        os.chdir('author')
-        from django.core.management.commands.compilemessages import compile_messages
-        compile_messages(sys.stderr)
-    finally:
-        os.chdir('..')
+class compile_messages(Command):
+    description = ("re-compile local message files ('.po' to '.mo'). "
+                   "it require django-admin.py")
+    user_options = []
+
+    def initialize_options(self):
+        self.cwd = None
+
+    def finalize_options(self):
+        self.cwd = os.getcwd()
+
+    def run(self):
+        compile_messages.compile_messages()
+
+    @classmethod
+    def compile_messages(cls):
+        """
+        Compile '.po' into '.mo' via 'django-admin.py' thus the function
+        require the django to be installed.
+        It return True when the process successfully end, otherwise it print
+        error messages and return False.
+        https://docs.djangoproject.com/en/dev/ref/django-admin/#compilemessages
+        """
+        try:
+            import django
+        except ImportError:
+            print('####################################################\n'
+                  'Django is not installed.\nIt will not be possible to '
+                  'compile the locale files during installation of '
+                  'django-inspectional-registration.\nPlease, install '
+                  'Django first. Done so, install the django-registration'
+                  '-inspectional\n'
+                  '####################################################\n')
+            return False
+        else:
+            original_cwd = os.getcwd()
+            BASE = os.path.abspath(os.path.dirname(__file__))
+            root = os.path.join(BASE, 'author')
+            os.chdir(root)
+            os.system('django-admin.py compilemessages')
+            os.chdir(original_cwd)
+            return True
+
+class sdist(original_sdist):
+    """
+    Run 'sdist' command but make sure that the message files are latest by
+    running 'compile_messages' before 'sdist'
+    """
+    def run(self):
+        compile_messages.compile_messages()
+        original_sdist.run(self)
 
 def read(filename):
     import os.path
