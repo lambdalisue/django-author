@@ -1,6 +1,13 @@
 # Django settings for weblog project.
 import os
+import sys
+
 ROOT=os.path.dirname(__file__)
+
+APP_ROOT = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), APP_ROOT, '..')))
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

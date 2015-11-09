@@ -3,6 +3,15 @@
 # http://www.sing365.com/music/lyric.nsf/the-beatles-lyrics/b295ead4908586f94825699d00291c62
 #
 - model: auth.user
+  pk: 1
+  fields:
+    username: author1
+    email: author1@test.com
+    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+    is_active: true
+    is_superuser: false
+    is_staff: false
+- model: auth.user
   pk: 2
   fields:
     username: foo
