@@ -36,7 +36,10 @@ import django
 def runtests(verbosity=1, interactive=True):
     TestRunner = get_runner(settings)
     test_runner = TestRunner(verbosity=verbosity, interactive=interactive)
-    django.setup()
+    try:
+        django.setup()
+    except AttributeError: # Django < 1.7
+        pass
     failures = test_runner.run_tests([])
     sys.exit(bool(failures))
 
