@@ -4,9 +4,7 @@ import sys
 
 ROOT=os.path.dirname(__file__)
 
-APP_ROOT = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), '..'))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), APP_ROOT, '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 DEBUG = True
@@ -161,3 +159,5 @@ LOGGING = {
         },
     }
 }
+
+TEST_RUNNER="django.test.runner.DiscoverRunner"

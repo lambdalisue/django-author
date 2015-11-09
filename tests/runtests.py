@@ -31,10 +31,12 @@ sys.path.insert(0, test_dir)
 
 from django.test.utils import get_runner
 from django.conf import settings
+import django
 
 def runtests(verbosity=1, interactive=True):
     TestRunner = get_runner(settings)
     test_runner = TestRunner(verbosity=verbosity, interactive=interactive)
+    django.setup()
     failures = test_runner.run_tests([])
     sys.exit(bool(failures))
 
