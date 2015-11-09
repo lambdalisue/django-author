@@ -61,9 +61,9 @@ def load_backend(path):
     module ,attr = path[:i], path[i+1:]
     try:
         mod = import_module(module)
-    except ImportError, e:
+    except(ImportError, e):
         raise ImproperlyConfigured('Error importing author backend %s: "%s"' % (path, e))
-    except ValueError, e:
+    except(ValueError, e):
         raise ImproperlyConfigured('Error importing author backend. Is AUTHOR_BACKEND a correctly defined?')
     try:
         cls = getattr(mod, attr)
