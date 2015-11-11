@@ -1,3 +1,9 @@
+********
+django-author
+********
+.. image:: https://travis-ci.org/lambdalisue/django-author.svg
+    :target: https://travis-ci.org/lambdalisue/django-author
+    
 Update author and updated_by fields of models automatically
 
 This library is used for updating ``author`` and ``updated_by`` fields automatically
