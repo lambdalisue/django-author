@@ -26,13 +26,17 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.conf import settings
 from django.db import models
-from django.contrib.auth import models as auth_models
 try:
     from django.contrib.auth.management import create_superuser
 except ImportError:
     def create_superuser(*args, **kwargs):
         pass
-from django.db.models import signals
+
+try:
+    from django.db.models.signals import post_migrate
+except ImportError:
+    from django.db.models.signals import post_syncdb as post_migrate
+#from django.contrib.auth import models as auth_models
 
 settings.AUTO_CREATE_USER = getattr(settings, 'AUTO_CREATE_USER', True)
 
@@ -65,9 +69,9 @@ if settings.DEBUG and settings.AUTO_CREATE_USER:
         else:
             if verbosity > 0:
                 print('Test user already exists. -- login: %s, password: %s' % (USERNAME, PASSWORD))
-    signals.post_syncdb.disconnect(
+    post_migrate.disconnect(
         create_superuser,
-        sender=auth_models,
+        sender="django.contrib.auth.models",
         dispatch_uid='django.contrib.auth.management.create_superuser')
-    signals.post_syncdb.connect(create_testuser,
-        sender=auth_models, dispatch_uid='common.models.create_testuser')
+    post_migrate.connect(create_testuser,
+        sender="django.contrib.auth.models", dispatch_uid='common.models.create_testuser')

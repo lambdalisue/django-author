@@ -29,7 +29,6 @@ import logging
 
 from django.conf import settings
 from django.db.models.signals import pre_save
-from django.contrib.contenttypes.models import ContentType
 
 logger = logging.getLogger(__name__)
 
@@ -53,6 +52,7 @@ def register():
     if settings.AUTHOR_MODELS:
         for model in settings.AUTHOR_MODELS:
             app_label, model = model.split('.', 1)
+            from django.contrib.contenttypes.models import ContentType
             ct = ContentType.objects.get_by_natural_key(app_label, model)
             pre_save.connect(pre_save_callback, sender=ct.model_class())
     else:
