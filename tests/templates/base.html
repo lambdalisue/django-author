@@ -19,9 +19,9 @@
                 <ul>
                     {% if user.is_authenticated %}
                     <li id="create-new-entry"><a href="{% url 'blog-entry-create' %}">Create new entry</a></li>
-                    <li id="logout"><a href="{% url 'django.contrib.auth.views.logout' %}">Logout</a></li>
+                    <li id="logout"><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
-                    <li id="login"><a href="{% url 'django.contrib.auth.views.login' %}">Login</a></li>
+                    <li id="login"><a href="{% url 'login' %}">Login</a></li>
                     {% endif %}
                 </ul>
             </nav>

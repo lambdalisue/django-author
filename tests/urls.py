@@ -1,17 +1,15 @@
-try:
-    from django.conf.urls import patterns, include, url
-except ImportError: # in Django < 1.6
-    from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls import include, url
+from django.contrib.auth import views as auth_views
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = (
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^registration/login/$', 'django.contrib.auth.views.login',
+    url(r'^registration/login/$', auth_views.login,
         name='login'),
-    url(r'^registration/logout/$', 'django.contrib.auth.views.logout',
+    url(r'^registration/logout/$', auth_views.logout,
         name='logout'),
     url(r'^', include('blog.urls')),
 )
