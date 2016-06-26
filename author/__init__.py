@@ -33,10 +33,7 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-try:
-    from importlib import import_module
-except ImportError:
-    from django.utils.importlib import import_module
+from importlib import import_module
 
 from . import backends
 from . import recivers

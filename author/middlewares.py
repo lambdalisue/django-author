@@ -25,10 +25,7 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-try:
-    from threading import local
-except ImportError:
-    from django.utils._threading_local import local
+from threading import local
 import django
 
 
