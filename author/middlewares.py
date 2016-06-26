@@ -29,6 +29,7 @@ try:
     from threading import local
 except ImportError:
     from django.utils._threading_local import local
+from django.utils import deprecation
 
 __all__ = ['get_request', 'AuthorDefaultBackendMiddleware']
 _thread_locals = local()
@@ -37,6 +38,6 @@ def get_request():
     """Get request stored in current thread"""
     return getattr(_thread_locals, 'request', None)
 
-class AuthorDefaultBackendMiddleware(object):
+class AuthorDefaultBackendMiddleware(deprecation.MiddlewareMixin, object):
     def process_request(self, request):
         _thread_locals.request = request
