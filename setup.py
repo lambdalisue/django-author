@@ -89,7 +89,6 @@ setup(
     include_package_data = True,
     zip_safe = True,
     install_requires=[
-        'distribute',
         'setuptools-git',
         ],
     test_suite = 'tests.runtests.runtests',
