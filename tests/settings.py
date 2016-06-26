@@ -107,16 +107,25 @@ TEMPLATES = [
     },
 ]
 
-MIDDLEWARE_CLASSES = (
+BASE_MIDDLEWARES = [
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'author.middlewares.AuthorDefaultBackendMiddleware',
-)
+]
 
-MIDDLEWARE = MIDDLEWARE_CLASSES
+
+if django.VERSION > (1,7):
+    BASE_MIDDLEWARES.append('django.contrib.auth.middleware.SessionAuthenticationMiddleware')
+
+MIDDLEWARE_CLASSES = []
+MIDDLEWARE_CLASSES += BASE_MIDDLEWARES
+MIDDLEWARE_CLASSES.append('author.middlewares.AuthorDefaultBackendMiddleware')
+
+MIDDLEWARE = []
+MIDDLEWARE += BASE_MIDDLEWARES
+MIDDLEWARE.append('author.middlewares.AuthorDefaultBackendMiddlewareNewStyle')
 
 ROOT_URLCONF = 'urls'
 
