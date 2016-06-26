@@ -12,7 +12,10 @@ env:
 install:
   - pip install -q "$DJANGO_VERSION"
   - pip install pyaml
-script: python -Wall tests/runtests.py
+  - pip install coverage coveralls
+script: python -Wall $VIRTUAL_ENV/bin/coverage run tests/runtests.py
+after_script:
+   coveralls
 matrix:
   allow_failures:
     - env: DJANGO_VERSION="https://github.com/django/django/archive/master.tar.gz"

@@ -25,10 +25,9 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-try:
-    from threading import local
-except ImportError:
-    from django.utils._threading_local import local
+from threading import local
+import django
+
 
 __all__ = ['get_request', 'AuthorDefaultBackendMiddleware']
 _thread_locals = local()
@@ -40,3 +39,8 @@ def get_request():
 class AuthorDefaultBackendMiddleware(object):
     def process_request(self, request):
         _thread_locals.request = request
+
+if django.VERSION > (1,10):
+    from django.utils import deprecation
+    class AuthorDefaultBackendMiddlewareNewStyle(deprecation.MiddlewareMixin, AuthorDefaultBackendMiddleware):
+        pass

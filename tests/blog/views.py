@@ -29,7 +29,10 @@ from django.views.generic import DetailView
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic import DeleteView
-from django.core.urlresolvers import reverse
+try:  # Django >= 1.10
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 
 from .models import Entry
 from .forms import EntryForm

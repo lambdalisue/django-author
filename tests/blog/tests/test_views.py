@@ -63,7 +63,10 @@ class EntryViewTestCase(TestCase):
         self.assertEqual(entry.author, None)
         self.assertEqual(entry.updated_by, None)
 
-        assert self.client.login(username='admin', password='password')
+        try:  # Django >= 1.9
+            self.client.force_login(User.objects.get(username='admin'))
+        except AttributeError:
+            assert self.client.login(username='admin', password='password')
         response = self.client.post('/create/', {
                 'title': 'barbar',
                 'body': 'barbar'
@@ -77,7 +80,10 @@ class EntryViewTestCase(TestCase):
         self.assertEqual(entry.updated_by, admin)
 
         self.client.logout()
-        assert self.client.login(username='foo', password='password')
+        try:  # Django >= 1.9
+            self.client.force_login(User.objects.get(username='foo'))
+        except AttributeError:
+            assert self.client.login(username='foo', password='password')
         response = self.client.post('/update/%d/' % entry.pk, {
                 'title': 'barbarbar',
                 'body': 'barbarbar'

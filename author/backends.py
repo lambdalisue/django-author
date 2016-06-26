@@ -39,9 +39,9 @@ class AuthorDefaultBackend(object):
 
     def __init__(self):
         required_middleware = 'author.middlewares.AuthorDefaultBackendMiddleware'
-        if required_middleware not in settings.MIDDLEWARE_CLASSES:
+        if required_middleware not in settings.MIDDLEWARE_CLASSES and required_middleware not in settings.MIDDLEWARE:
             raise ImproperlyConfigured(
-                    'Error "%s" is not found in MIDDLEWARE_CLASSES. '
+                    'Error "%s" is not found in MIDDLEWARE_CLASSES nor MIDDLEWARE. '
                     'It is required to use AuthorDefaultBackend' % required_middleware)
     def _get_user_model(self):
         """get user model class"""
