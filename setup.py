@@ -9,7 +9,7 @@ import os
 from setuptools import setup, find_packages, Command
 from setuptools.command.sdist import sdist as original_sdist
 
-version = "0.4.4"
+version = "0.4.5"
 
 class compile_messages(Command):
     description = ("re-compile local message files ('.po' to '.mo'). "
