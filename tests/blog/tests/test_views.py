@@ -95,3 +95,30 @@ class EntryViewTestCase(TestCase):
         entry = models.Entry.objects.get(pk=entry.pk)
         self.assertEqual(entry.author, admin)
         self.assertEqual(entry.updated_by, foo)
+
+    def test_failed_request(self):
+        """
+        Test for problem when two consequent tests failed.
+        If the request is created, then user is logged off
+        and another object is created in the same session, it failed.
+        """
+        from django.contrib.auth.models import User
+        from blog import models
+
+        try:  # Django >= 1.9
+            self.client.force_login(User.objects.get(username='admin'))
+        except AttributeError:
+            assert self.client.login(username='admin', password='password')
+        response = self.client.post('/create/', {
+                'title': 'barbar',
+                'body': 'barbar'
+            })
+        # if post success, redirect occur
+        self.assertEqual(response.status_code, 302)
+
+        self.client.logout()
+        User.objects.get(username='admin').delete()
+        models.Entry.objects.create(title='barbar1')
+        entry = models.Entry.objects.get(title='barbar1')
+        self.assertEqual(entry.author, None)
+        self.assertEqual(entry.updated_by, None)
