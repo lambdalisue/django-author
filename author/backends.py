@@ -45,6 +45,7 @@ class AuthorDefaultBackend(object):
                     'It is required to use AuthorDefaultBackend' % required_middleware)
     def _get_user_model(self):
         """get user model class"""
+        return settings.AUTH_USER_MODEL
         from django.contrib.auth.models import User
         return User
 
