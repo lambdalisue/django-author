@@ -29,9 +29,9 @@ or from github::
 Usage
 ==========
 
-1.  Add 'author' to your ``INSTALLED_APPS`` on settings.py
+1.  Add ``'author'`` to your ``INSTALLED_APPS`` on settings.py
 
-2.  Add 'author.middlewares.AuthorDefaultBackendMiddleware' to your ``MIDDLEWARE_CLASSES``
+2.  Add ``'author.middlewares.AuthorDefaultBackendMiddleware'`` to your ``MIDDLEWARE_CLASSES``
     if you use default author backend
 
 3.  Add ``author`` and ``updated_by`` field to models which you want to have ``author`` and ``updated_by`` fields manually
