@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/env python
+# !/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
 backends for django-author
@@ -24,9 +24,13 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
+import django
 from django.conf import settings
+from django.contrib import auth
 from django.core.exceptions import ImproperlyConfigured
+
 from .middlewares import get_request
+
 
 class AuthorDefaultBackend(object):
     """Author default backend
@@ -39,14 +43,21 @@ class AuthorDefaultBackend(object):
 
     def __init__(self):
         required_middleware = 'author.middlewares.AuthorDefaultBackendMiddleware'
-        if required_middleware not in settings.MIDDLEWARE_CLASSES and required_middleware not in settings.MIDDLEWARE:
-            raise ImproperlyConfigured(
+        new_required_middleware = 'author.middlewares.AuthorDefaultBackendMiddlewareNewStyle'
+        if django.VERSION > (1, 10):
+            if new_required_middleware not in settings.MIDDLEWARE_CLASSES and new_required_middleware not in settings.MIDDLEWARE:
+                raise ImproperlyConfigured(
+                    'Error "%s" is not found in MIDDLEWARE_CLASSES nor MIDDLEWARE. '
+                    'It is required to use AuthorDefaultBackend' % new_required_middleware)
+        else:
+            if required_middleware not in settings.MIDDLEWARE_CLASSES and required_middleware not in settings.MIDDLEWARE:
+                raise ImproperlyConfigured(
                     'Error "%s" is not found in MIDDLEWARE_CLASSES nor MIDDLEWARE. '
                     'It is required to use AuthorDefaultBackend' % required_middleware)
+
     def _get_user_model(self):
         """get user model class"""
-        from django.contrib.auth.models import User
-        return User
+        return auth.get_user_model()
 
     def _get_request(self):
         """get current request"""
@@ -60,6 +71,7 @@ class AuthorDefaultBackend(object):
                 return request.user
         # AnonymousUser
         return None
+
 
 class AuthorSystemUserBackend(AuthorDefaultBackend):
     """Author System user backend

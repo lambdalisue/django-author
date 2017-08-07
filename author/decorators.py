@@ -34,15 +34,9 @@ from . import get_backend
 
 def with_author(cls):
     """Decorator to add created_by/updated_by field to particular model"""
-    def _get_user_model():
-        from django.contrib.auth.models import User
-        backend = get_backend()
-        return backend._get_user_model() if hasattr(backend, '_get_user_model') else User
-
-    user_model = _get_user_model()
     verbose_name_plural = cls._meta.object_name
-    created_by = models.ForeignKey(user_model, verbose_name=_('author'), related_name='%s_create' % verbose_name_plural.lower(), null=True, blank=True, on_delete=models.SET_NULL)
-    updated_by = models.ForeignKey(user_model, verbose_name=_('last updated by'), related_name='%s_update' % verbose_name_plural.lower(), null=True, blank=True, on_delete=models.SET_NULL)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('author'), related_name='%s_create' % verbose_name_plural.lower(), null=True, blank=True, on_delete=models.SET_NULL)
+    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('last updated by'), related_name='%s_update' % verbose_name_plural.lower(), null=True, blank=True, on_delete=models.SET_NULL)
 
     if not hasattr(cls, settings.AUTHOR_CREATED_BY_FIELD_NAME):
         cls.add_to_class(settings.AUTHOR_CREATED_BY_FIELD_NAME, created_by)
