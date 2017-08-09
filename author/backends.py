@@ -1,5 +1,5 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# !/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
 backends for django-author
@@ -42,18 +42,16 @@ class AuthorDefaultBackend(object):
     """
 
     def __init__(self):
-        required_middleware = 'author.middlewares.AuthorDefaultBackendMiddleware'
-        new_required_middleware = 'author.middlewares.AuthorDefaultBackendMiddlewareNewStyle'
-        if django.VERSION > (1, 10):
-            if new_required_middleware not in settings.MIDDLEWARE_CLASSES and new_required_middleware not in settings.MIDDLEWARE:
-                raise ImproperlyConfigured(
-                    'Error "%s" is not found in MIDDLEWARE_CLASSES nor MIDDLEWARE. '
-                    'It is required to use AuthorDefaultBackend' % new_required_middleware)
+
+        if django.VERSION >= (1, 10):
+            required_middleware = 'author.middlewares.AuthorDefaultBackendMiddlewareNewStyle'
         else:
-            if required_middleware not in settings.MIDDLEWARE_CLASSES and required_middleware not in settings.MIDDLEWARE:
-                raise ImproperlyConfigured(
-                    'Error "%s" is not found in MIDDLEWARE_CLASSES nor MIDDLEWARE. '
-                    'It is required to use AuthorDefaultBackend' % required_middleware)
+            required_middleware = 'author.middlewares.AuthorDefaultBackendMiddleware'
+
+        if required_middleware not in settings.MIDDLEWARE_CLASSES and required_middleware not in settings.MIDDLEWARE:
+            raise ImproperlyConfigured(
+                'Error "%s" is not found in MIDDLEWARE_CLASSES nor MIDDLEWARE. '
+                'It is required to use AuthorDefaultBackend' % required_middleware)
 
     def _get_user_model(self):
         """get user model class"""

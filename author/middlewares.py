@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # vim: set fileencoding=utf8:
 """
 middlewares for django-author
@@ -26,15 +26,17 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from threading import local
-import django
 
+import django
 
 __all__ = ['get_request', 'AuthorDefaultBackendMiddleware']
 _thread_locals = local()
 
+
 def get_request():
     """Get request stored in current thread"""
     return getattr(_thread_locals, 'request', None)
+
 
 class AuthorDefaultBackendMiddleware(object):
     def process_request(self, request):
@@ -44,7 +46,10 @@ class AuthorDefaultBackendMiddleware(object):
         _thread_locals.request = None
         return response
 
-if django.VERSION > (1,10):
+
+if django.VERSION >= (1, 10):
     from django.utils import deprecation
+
+
     class AuthorDefaultBackendMiddlewareNewStyle(deprecation.MiddlewareMixin, AuthorDefaultBackendMiddleware):
         pass
