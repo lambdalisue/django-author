@@ -1,10 +1,11 @@
 # Django settings for weblog project.
 import os
 import sys
-from decimal import Decimal
+
 import django
 
-ROOT=os.path.dirname(__file__)
+
+ROOT = os.path.dirname(__file__)
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -21,11 +22,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(ROOT, 'database.db'),
-        'USER': '',                      
-        'PASSWORD': '',                  
-        'HOST': '',                      
-        'PORT': '',                      
-    }
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    },
 }
 
 # Local time zone for this installation. Choices can be found here:
@@ -88,7 +89,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -105,7 +106,7 @@ TEMPLATES = [
             'debug': DEBUG,
             'context_processors': (
                 'django.contrib.auth.context_processors.auth',
-            )
+            ),
         },
     },
 ]
@@ -119,7 +120,7 @@ BASE_MIDDLEWARES = [
 ]
 
 
-if django.VERSION > (1,7):
+if django.VERSION >= (1, 7):
     BASE_MIDDLEWARES.append('django.contrib.auth.middleware.SessionAuthenticationMiddleware')
 
 MIDDLEWARE_CLASSES = []
@@ -162,8 +163,8 @@ LOGGING = {
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
     },
     'loggers': {
         'django.request': {
@@ -171,7 +172,7 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
-    }
+    },
 }
 
 TEST_RUNNER = "django.test.runner.DiscoverRunner"

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # vim: set fileencoding=utf8:
 """
@@ -6,12 +5,12 @@ backends for django-author
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
-    
+
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
 License:
-    Licensed under the Apache License, Version 2.0 (the "License"); 
+    Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
@@ -34,7 +33,7 @@ from .middlewares import get_request
 
 class AuthorDefaultBackend(object):
     """Author default backend
-    
+
     Get current user from request stored in thread_locals.
     Return None when request.user is not detected include request.user
     is AnonymousUser
@@ -48,10 +47,14 @@ class AuthorDefaultBackend(object):
         else:
             required_middleware = 'author.middlewares.AuthorDefaultBackendMiddleware'
 
-        if required_middleware not in settings.MIDDLEWARE_CLASSES and required_middleware not in settings.MIDDLEWARE:
+        if (
+                required_middleware not in settings.MIDDLEWARE_CLASSES and
+                required_middleware not in settings.MIDDLEWARE
+        ):
             raise ImproperlyConfigured(
                 'Error "%s" is not found in MIDDLEWARE_CLASSES nor MIDDLEWARE. '
-                'It is required to use AuthorDefaultBackend' % required_middleware)
+                'It is required to use AuthorDefaultBackend' % required_middleware,
+            )
 
     def _get_user_model(self):
         """get user model class"""
@@ -73,7 +76,7 @@ class AuthorDefaultBackend(object):
 
 class AuthorSystemUserBackend(AuthorDefaultBackend):
     """Author System user backend
-    
+
     Get current user from request stored in thread_locals.
     Return System user when request.user is not detected include request.user
     is AnonymousUser

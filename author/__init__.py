@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # vim: set fileencoding=utf8:
 """
@@ -13,12 +12,12 @@ Add this backend to your ``AUTHENTICATION_BACKENDS`` like below::
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
-    
+
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
 License:
-    Licensed under the Apache License, Version 2.0 (the "License"); 
+    Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
@@ -41,17 +40,37 @@ from . import recivers
 
 settings.AUTHOR_BACKEND = getattr(settings, 'AUTHOR_BACKEND', backends.AuthorDefaultBackend)
 
-settings.AUTHOR_CREATED_BY_FIELD_NAME = getattr(settings, 'AUTHOR_CREATED_BY_FIELD_NAME', 'author')
-settings.AUTHOR_UPDATED_BY_FIELD_NAME = getattr(settings, 'AUTHOR_UPDATED_BY_FIELD_NAME', 'updated_by')
-settings.AUTHOR_DO_NOT_UPDATE_WHILE_USER_IS_NONE = getattr(settings, 'AUTHOR_DO_NOT_UPDATE_WHILE_USER_IS_NONE', True)
+settings.AUTHOR_CREATED_BY_FIELD_NAME = getattr(
+    settings,
+    'AUTHOR_CREATED_BY_FIELD_NAME',
+    'author',
+)
+settings.AUTHOR_UPDATED_BY_FIELD_NAME = getattr(
+    settings,
+    'AUTHOR_UPDATED_BY_FIELD_NAME',
+    'updated_by',
+)
+settings.AUTHOR_DO_NOT_UPDATE_WHILE_USER_IS_NONE = getattr(
+    settings,
+    'AUTHOR_DO_NOT_UPDATE_WHILE_USER_IS_NONE',
+    True,
+)
 
-settings.AUTHOR_MODELS = getattr(settings, 'AUTHOR_MODELS', None)
-settings.AUTHOR_IGNORE_MODELS = getattr(settings, 'AUTHOR_IGNORE_MODELS', [
-    'auth.user',
-    'auth.group',
-    'auth.permission',
-    'contenttypes.contenttype',
-])
+settings.AUTHOR_MODELS = getattr(
+    settings,
+    'AUTHOR_MODELS',
+    None,
+)
+settings.AUTHOR_IGNORE_MODELS = getattr(
+    settings,
+    'AUTHOR_IGNORE_MODELS',
+    [
+        'auth.user',
+        'auth.group',
+        'auth.permission',
+        'contenttypes.contenttype',
+    ],
+)
 
 
 def load_backend(path):
@@ -63,14 +82,20 @@ def load_backend(path):
     except ImportError as e:
         raise ImproperlyConfigured('Error importing author backend %s: "%s"' % (path, e))
     except ValueError:
-        raise ImproperlyConfigured('Error importing author backend. Is AUTHOR_BACKEND a correctly defined?')
+        raise ImproperlyConfigured(
+            'Error importing author backend. Is AUTHOR_BACKEND a correctly defined?',
+        )
     try:
         cls = getattr(mod, attr)
     except AttributeError:
-        raise ImproperlyConfigured('Module "%s" does not define a "%s" author backend' % (module, attr))
+        raise ImproperlyConfigured(
+            'Module "%s" does not define a "%s" author backend' % (module, attr),
+        )
 
     if not hasattr(cls, 'get_user'):
-        raise ImproperlyConfigured('Error author backend must have "get_user" method Please define it in %s.' % cls)
+        raise ImproperlyConfigured(
+            'Error author backend must have "get_user" method Please define it in %s.' % cls,
+        )
     return cls()
 
 
@@ -86,7 +111,9 @@ def get_backend_class():
     elif isinstance(backend, object) and hasattr(backend, 'get_user'):
         return backend
     else:
-        raise ImproperlyConfigured('Error author backend must have "get_user" method Please define it in %s.' % backend)
+        raise ImproperlyConfigured(
+            'Error author backend must have "get_user" method Please define it in %s.' % backend,
+        )
 
 
 def get_backend():

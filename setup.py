@@ -4,12 +4,13 @@
 # Author:       Alisue
 # Last Change:  18-Mar-2011.
 #
-import sys
 import os
-from setuptools import setup, find_packages, Command
+
+from setuptools import Command, find_packages, setup
 from setuptools.command.sdist import sdist as original_sdist
 
 version = "0.4.5"
+
 
 class compile_messages(Command):
     description = ("re-compile local message files ('.po' to '.mo'). "
@@ -35,7 +36,7 @@ class compile_messages(Command):
         https://docs.djangoproject.com/en/dev/ref/django-admin/#compilemessages
         """
         try:
-            import django
+            import django  # noqa
         except ImportError:
             print('####################################################\n'
                   'Django is not installed.\nIt will not be possible to '
@@ -54,6 +55,7 @@ class compile_messages(Command):
             os.chdir(original_cwd)
             return True
 
+
 class sdist(original_sdist):
     """
     Run 'sdist' command but make sure that the message files are latest by
@@ -63,33 +65,35 @@ class sdist(original_sdist):
         compile_messages.compile_messages()
         original_sdist.run(self)
 
+
 def read(filename):
     import os.path
     return open(os.path.join(os.path.dirname(__file__), filename)).read()
 
+
 setup(
     name="django-author",
     version=version,
-    description = "Add special User ForeignKey fields which update automatically",
+    description="Add special User ForeignKey fields which update automatically",
     long_description=read('README.rst'),
-    classifiers = [
+    classifiers=[
         'Framework :: Django',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP',
     ],
-    keywords = "django author object universal",
-    author = "Alisue",
-    author_email = "lambdalisue@hashnote.net",
+    keywords="django author object universal",
+    author="Alisue",
+    author_email="lambdalisue@hashnote.net",
     url=r"https://github.com/lambdalisue/django-author",
-    download_url = r"https://github.com/lambdalisue/django-author/tarball/master",
-    license = 'MIT',
-    packages = find_packages(),
-    include_package_data = True,
-    zip_safe = True,
+    download_url=r"https://github.com/lambdalisue/django-author/tarball/master",
+    license='MIT',
+    packages=find_packages(),
+    include_package_data=True,
+    zip_safe=True,
     install_requires=[
         'setuptools-git',
-        ],
-    test_suite = 'tests.runtests.runtests',
+    ],
+    test_suite='tests.runtests.runtests',
 )

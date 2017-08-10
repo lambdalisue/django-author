@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # vim: set fileencoding=utf8:
 """
@@ -7,12 +6,12 @@ middlewares for django-author
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
-    
+
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
 License:
-    Licensed under the Apache License, Version 2.0 (the "License"); 
+    Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
@@ -50,6 +49,8 @@ class AuthorDefaultBackendMiddleware(object):
 if django.VERSION >= (1, 10):
     from django.utils import deprecation
 
-
-    class AuthorDefaultBackendMiddlewareNewStyle(deprecation.MiddlewareMixin, AuthorDefaultBackendMiddleware):
+    class AuthorDefaultBackendMiddlewareNewStyle(
+            deprecation.MiddlewareMixin,
+            AuthorDefaultBackendMiddleware,
+    ):
         pass

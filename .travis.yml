@@ -14,6 +14,9 @@ install:
   - pip install -q "$DJANGO_VERSION"
   - pip install pyaml
   - pip install coverage coveralls
+before_script:
+  - pip install flake8 flake8-import-order flake8-blind-except flake8-tidy-imports flake8-commas flake8-trailing-commas flake8-comprehensions
+  - flake8
 script: python -Wall $VIRTUAL_ENV/bin/coverage run tests/runtests.py
 after_script:
    coveralls
