@@ -26,6 +26,7 @@ __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 
 from blog import models
 
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
@@ -50,10 +51,10 @@ class AuthorBackendTestCase(TestCase):
             entry.save()
 
 
+@override_settings(
+    AUTHOR_BACKEND='author.backends.AuthorSystemUserBackend',
+)
 class AuthorSystemUserBackendTestCase(TestCase):
-    @override_settings(
-        AUTHOR_BACKEND='author.backends.AuthorSystemUserBackend',
-    )
     def test_save(self):
         """Test that AuthorSystemBackend saves with default user"""
         user = User.objects.create(pk=1)
@@ -61,6 +62,28 @@ class AuthorSystemUserBackendTestCase(TestCase):
         entry.save()
         self.assertEqual(entry.author, user)
 
+    def test_with_request(self):
+        admin = User.objects.create(pk=1, username='admin', password=make_password('password'))
+        try:  # Django >= 1.9
+            self.client.force_login(admin)
+        except AttributeError:
+            assert self.client.login(username='admin', password='password')
+        response = self.client.post(
+            '/create/',
+            {
+                'title': 'barbar',
+                'body': 'barbar',
+            },
+        )
+        # if post success, redirect occur
+        self.assertEqual(response.status_code, 302)
+
+        entry = models.Entry.objects.get(title='barbar')
+        self.assertEqual(entry.author, admin)
+        self.assertEqual(entry.updated_by, admin)
+
+
+class AuthorBackendSettingsTestCase(TestCase):
     @override_settings(
         AUTHOR_BACKEND='author.backends.FooBackend',
     )
