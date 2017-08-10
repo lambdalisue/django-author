@@ -23,3 +23,6 @@ after_script:
 matrix:
   allow_failures:
     - env: DJANGO_VERSION="https://github.com/django/django/archive/master.tar.gz"
+  exclude:
+    - python: "2.7"
+      env: DJANGO_VERSION="https://github.com/django/django/archive/master.tar.gz"

@@ -26,7 +26,7 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.conf import settings
 from django.db import models
-from django.utils.text import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 
 
 def with_author(cls):

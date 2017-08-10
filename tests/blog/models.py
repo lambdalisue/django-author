@@ -27,7 +27,7 @@ __VERSION__ = "0.1.0"
 from author.decorators import with_author
 
 from django.db import models
-from django.utils.text import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 
 
 # This class decorator (@with_author) is all you need to add `author` and `updated_by` field

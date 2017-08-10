@@ -2,8 +2,6 @@
 import os
 import sys
 
-import django
-
 
 ROOT = os.path.dirname(__file__)
 
@@ -119,9 +117,6 @@ BASE_MIDDLEWARES = [
     'django.contrib.messages.middleware.MessageMiddleware',
 ]
 
-
-if django.VERSION >= (1, 7):
-    BASE_MIDDLEWARES.append('django.contrib.auth.middleware.SessionAuthenticationMiddleware')
 
 MIDDLEWARE_CLASSES = []
 MIDDLEWARE_CLASSES += BASE_MIDDLEWARES
