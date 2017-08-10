@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
 Unittest module of models
@@ -6,12 +5,12 @@ Unittest module of models
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
-    
+
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
 License:
-    Licensed under the Apache License, Version 2.0 (the "License"); 
+    Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
@@ -24,9 +23,11 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.test import TestCase
 
 from blog import models
+
+from django.test import TestCase
+
 
 class EntryModelTestCase(TestCase):
     def test_creation(self):

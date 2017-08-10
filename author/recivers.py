@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
 signal recivers for django-author
@@ -7,12 +6,12 @@ signal recivers for django-author
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
-    
+
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
 License:
-    Licensed under the Apache License, Version 2.0 (the "License"); 
+    Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
@@ -32,10 +31,14 @@ from django.db.models.signals import pre_save
 
 logger = logging.getLogger(__name__)
 
+
 def pre_save_callback(sender, instance, **kwargs):
     from . import get_backend
 
-    if "%s.%s" % (instance._meta.app_label, str(instance.__class__).lower()) in settings.AUTHOR_IGNORE_MODELS:
+    if (
+            "%s.%s" % (instance._meta.app_label, str(instance.__class__).lower())
+            in settings.AUTHOR_IGNORE_MODELS
+    ):
         return
     if not hasattr(instance, settings.AUTHOR_CREATED_BY_FIELD_NAME):
         return
@@ -47,6 +50,7 @@ def pre_save_callback(sender, instance, **kwargs):
         setattr(instance, settings.AUTHOR_CREATED_BY_FIELD_NAME, user)
     if hasattr(instance, settings.AUTHOR_UPDATED_BY_FIELD_NAME):
         setattr(instance, settings.AUTHOR_UPDATED_BY_FIELD_NAME, user)
+
 
 def register():
     if settings.AUTHOR_MODELS:

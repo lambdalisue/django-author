@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
 Unittest module of ...
@@ -6,12 +5,12 @@ Unittest module of ...
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
-    
+
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
 License:
-    Licensed under the Apache License, Version 2.0 (the "License"); 
+    Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
@@ -53,10 +52,13 @@ class EntryViewTestCase(TestCase):
     def test_with_author(self):
         from django.contrib.auth.models import User
         from blog import models
-        response = self.client.post('/create/', {
+        response = self.client.post(
+            '/create/',
+            {
                 'title': 'foo',
-                'body': 'foo'
-            })
+                'body': 'foo',
+            },
+        )
         self.assertEqual(response.status_code, 200)
 
         entry = models.Entry.objects.get(title='foo')
@@ -67,10 +69,13 @@ class EntryViewTestCase(TestCase):
             self.client.force_login(User.objects.get(username='admin'))
         except AttributeError:
             assert self.client.login(username='admin', password='password')
-        response = self.client.post('/create/', {
+        response = self.client.post(
+            '/create/',
+            {
                 'title': 'barbar',
-                'body': 'barbar'
-            })
+                'body': 'barbar',
+            },
+        )
         # if post success, redirect occur
         self.assertEqual(response.status_code, 302)
 
@@ -84,10 +89,13 @@ class EntryViewTestCase(TestCase):
             self.client.force_login(User.objects.get(username='foo'))
         except AttributeError:
             assert self.client.login(username='foo', password='password')
-        response = self.client.post('/update/%d/' % entry.pk, {
+        response = self.client.post(
+            '/update/%d/' % entry.pk,
+            {
                 'title': 'barbarbar',
-                'body': 'barbarbar'
-            })
+                'body': 'barbarbar',
+            },
+        )
         # if post success, redirect occur
         self.assertEqual(response.status_code, 302)
 
@@ -109,10 +117,13 @@ class EntryViewTestCase(TestCase):
             self.client.force_login(User.objects.get(username='admin'))
         except AttributeError:
             assert self.client.login(username='admin', password='password')
-        response = self.client.post('/create/', {
+        response = self.client.post(
+            '/create/',
+            {
                 'title': 'barbar',
-                'body': 'barbar'
-            })
+                'body': 'barbar',
+            },
+        )
         # if post success, redirect occur
         self.assertEqual(response.status_code, 302)
 

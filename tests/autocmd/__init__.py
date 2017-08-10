@@ -6,12 +6,12 @@ short module explanation
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
-    
+
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
 License:
-    Licensed under the Apache License, Version 2.0 (the "License"); 
+    Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
@@ -36,7 +36,7 @@ try:
     from django.db.models.signals import post_migrate
 except ImportError:
     from django.db.models.signals import post_syncdb as post_migrate
-#from django.contrib.auth import models as auth_models
+# from django.contrib.auth import models as auth_models
 
 settings.AUTO_CREATE_USER = getattr(settings, 'AUTO_CREATE_USER', True)
 
@@ -72,6 +72,10 @@ if settings.DEBUG and settings.AUTO_CREATE_USER:
     post_migrate.disconnect(
         create_superuser,
         sender="django.contrib.auth.models",
-        dispatch_uid='django.contrib.auth.management.create_superuser')
-    post_migrate.connect(create_testuser,
-        sender="django.contrib.auth.models", dispatch_uid='common.models.create_testuser')
+        dispatch_uid='django.contrib.auth.management.create_superuser',
+    )
+    post_migrate.connect(
+        create_testuser,
+        sender="django.contrib.auth.models",
+        dispatch_uid='common.models.create_testuser',
+    )

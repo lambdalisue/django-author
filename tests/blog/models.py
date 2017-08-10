@@ -4,12 +4,12 @@ Mini blog models
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
-    
+
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
 License:
-    Licensed under the Apache License, Version 2.0 (the "License"); 
+    Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
@@ -23,10 +23,12 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 __VERSION__ = "0.1.0"
+
+from author.decorators import with_author
+
 from django.db import models
 from django.utils.text import ugettext_lazy as _
 
-from author.decorators import with_author
 
 # This class decorator (@with_author) is all you need to add `author` and `updated_by` field
 # to particular model.
@@ -39,7 +41,7 @@ from author.decorators import with_author
 @with_author
 class Entry(models.Model):
     """mini blog entry model
-    
+
     >>> entry = Entry()
 
     # Attribute test
@@ -55,10 +57,14 @@ class Entry(models.Model):
     title = models.CharField(_('title'), max_length=50, unique=True)
     body = models.TextField(_('body'))
 
-    created_at = models.DateTimeField(_('date and time created'),
-            auto_now_add=True)
-    updated_at = models.DateTimeField(_('date and time updated'),
-            auto_now=True)
+    created_at = models.DateTimeField(
+        _('date and time created'),
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        _('date and time updated'),
+        auto_now=True,
+    )
 
     def __unicode__(self):
         return self.title
@@ -72,4 +78,4 @@ class Entry(models.Model):
         from django.core.exceptions import ValidationError
         if self.title in ('create', 'update', 'delete'):
             raise ValidationError(
-                    """The title cannot be 'create', 'update' or 'delete'""")
+                """The title cannot be 'create', 'update' or 'delete'""")

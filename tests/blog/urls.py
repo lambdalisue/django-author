@@ -6,12 +6,12 @@ Mini blog urls
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
-    
+
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
 License:
-    Licensed under the Apache License, Version 2.0 (the "License"); 
+    Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
@@ -24,17 +24,30 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.conf.urls import include, url
+from django.conf.urls import url
+
 from . import views
 
 urlpatterns = (
     url(r'^$', views.EntryListView.as_view(), name='blog-entry-list'),
-    url(r'^create/$', views.EntryCreateView.as_view(), 
-        name='blog-entry-create'),
-    url(r'^update/(?P<pk>\d+)/$', views.EntryUpdateView.as_view(), 
-        name='blog-entry-update'),
-    url(r'^delete/(?P<pk>\d+)/$', views.EntryDeleteView.as_view(), 
-        name='blog-entry-delete'),
-    url(r'^(?P<slug>[^/]+)/$', views.EntryDetailView.as_view(), 
-        name='blog-entry-detail'),
+    url(
+        r'^create/$',
+        views.EntryCreateView.as_view(),
+        name='blog-entry-create',
+    ),
+    url(
+        r'^update/(?P<pk>\d+)/$',
+        views.EntryUpdateView.as_view(),
+        name='blog-entry-update',
+    ),
+    url(
+        r'^delete/(?P<pk>\d+)/$',
+        views.EntryDeleteView.as_view(),
+        name='blog-entry-delete',
+    ),
+    url(
+        r'^(?P<slug>[^/]+)/$',
+        views.EntryDetailView.as_view(),
+        name='blog-entry-detail',
+    ),
 )
