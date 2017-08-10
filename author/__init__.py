@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # vim: set fileencoding=utf8:
 """
 initialization django-object-permission
@@ -31,9 +31,10 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
+from importlib import import_module
+
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from importlib import import_module
 
 from . import backends
 from . import recivers
@@ -46,30 +47,32 @@ settings.AUTHOR_DO_NOT_UPDATE_WHILE_USER_IS_NONE = getattr(settings, 'AUTHOR_DO_
 
 settings.AUTHOR_MODELS = getattr(settings, 'AUTHOR_MODELS', None)
 settings.AUTHOR_IGNORE_MODELS = getattr(settings, 'AUTHOR_IGNORE_MODELS', [
-        'auth.user',
-        'auth.group',
-        'auth.permission',
-        'contenttypes.contenttype',
-    ])
+    'auth.user',
+    'auth.group',
+    'auth.permission',
+    'contenttypes.contenttype',
+])
+
 
 def load_backend(path):
     """load author backend from string path"""
     i = path.rfind('.')
-    module ,attr = path[:i], path[i+1:]
+    module, attr = path[:i], path[i + 1:]
     try:
         mod = import_module(module)
-    except(ImportError, e):
+    except ImportError as e:
         raise ImproperlyConfigured('Error importing author backend %s: "%s"' % (path, e))
-    except(ValueError, e):
+    except ValueError:
         raise ImproperlyConfigured('Error importing author backend. Is AUTHOR_BACKEND a correctly defined?')
     try:
         cls = getattr(mod, attr)
     except AttributeError:
         raise ImproperlyConfigured('Module "%s" does not define a "%s" author backend' % (module, attr))
-    
+
     if not hasattr(cls, 'get_user'):
         raise ImproperlyConfigured('Error author backend must have "get_user" method Please define it in %s.' % cls)
     return cls()
+
 
 def get_backend_class():
     """get author backend"""
@@ -85,9 +88,11 @@ def get_backend_class():
     else:
         raise ImproperlyConfigured('Error author backend must have "get_user" method Please define it in %s.' % backend)
 
+
 def get_backend():
     backend_class = get_backend_class()
     return backend_class()
+
 
 # Register recivers
 recivers.register()
