@@ -24,8 +24,6 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 
-from author.backends import AuthorSystemUserBackend
-
 from blog import models
 
 from django.contrib.auth.models import User
@@ -44,13 +42,17 @@ class AuthorBackendTestCase(TestCase):
     def test_improperly_configured(self):
         """Test, that if author backend is missing, it throws error"""
         entry = models.Entry(title='foo', body='bar')
-        with self.assertRaises(ImproperlyConfigured):
+        with self.assertRaisesRegexp(
+            ImproperlyConfigured,
+            r'Error "author.middlewares.AuthorDefaultBackendMiddleware(NewStyle)?" is not found '
+            'in MIDDLEWARE_CLASSES nor MIDDLEWARE. It is required to use AuthorDefaultBackend',
+        ):
             entry.save()
 
 
 class AuthorSystemUserBackendTestCase(TestCase):
     @override_settings(
-        AUTHOR_BACKEND=AuthorSystemUserBackend,
+        AUTHOR_BACKEND='author.backends.AuthorSystemUserBackend',
     )
     def test_save(self):
         """Test that AuthorSystemBackend saves with default user"""
@@ -58,3 +60,47 @@ class AuthorSystemUserBackendTestCase(TestCase):
         entry = models.Entry(title='foo', body='bar')
         entry.save()
         self.assertEqual(entry.author, user)
+
+    @override_settings(
+        AUTHOR_BACKEND='author.backends.FooBackend',
+    )
+    def test_unexistent_backend(self):
+        entry = models.Entry(title='foo', body='bar')
+        with self.assertRaisesRegexp(
+            ImproperlyConfigured,
+            'Module "author.backends" does not define a "FooBackend" author backend',
+        ):
+            entry.save()
+
+    @override_settings(
+        AUTHOR_BACKEND=1234,
+    )
+    def test_wrong_class(self):
+        entry = models.Entry(title='foo', body='bar')
+        with self.assertRaisesRegexp(
+            ImproperlyConfigured,
+            'Error author backend must have "get_user" method Please define it in 1234',
+        ):
+            entry.save()
+
+    @override_settings(
+        AUTHOR_BACKEND='foo',
+    )
+    def test_error_importing(self):
+        entry = models.Entry(title='foo', body='bar')
+        with self.assertRaisesRegexp(
+            ImproperlyConfigured,
+            r'Error importing author backend foo: "No module named \'?fo\'?',
+        ):
+            entry.save()
+
+    @override_settings(
+        AUTHOR_BACKEND='.',
+    )
+    def test_value_error(self):
+        entry = models.Entry(title='foo', body='bar')
+        with self.assertRaisesRegexp(
+            ImproperlyConfigured,
+            'Error importing author backend. Is AUTHOR_BACKEND a correctly defined?',
+        ):
+            entry.save()

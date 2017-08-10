@@ -91,12 +91,7 @@ def load_backend(path):
         raise ImproperlyConfigured(
             'Module "%s" does not define a "%s" author backend' % (module, attr),
         )
-
-    if not hasattr(cls, 'get_user'):
-        raise ImproperlyConfigured(
-            'Error author backend must have "get_user" method Please define it in %s.' % cls,
-        )
-    return cls()
+    return cls
 
 
 def get_backend_class():
@@ -107,8 +102,9 @@ def get_backend_class():
     except NameError:
         is_backend_string = isinstance(backend, str)
     if is_backend_string:
-        return load_backend(backend)
-    elif isinstance(backend, object) and hasattr(backend, 'get_user'):
+        backend = load_backend(backend)
+
+    if isinstance(backend, object) and hasattr(backend, 'get_user'):
         return backend
     else:
         raise ImproperlyConfigured(
