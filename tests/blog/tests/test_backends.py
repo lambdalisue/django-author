@@ -45,7 +45,7 @@ class AuthorBackendTestCase(TestCase):
         entry = models.Entry(title='foo', body='bar')
         with self.assertRaisesRegexp(
             ImproperlyConfigured,
-            r'Error "author.middlewares.AuthorDefaultBackendMiddleware(NewStyle)?" is not found '
+            r'Error "author.middlewares.AuthorDefaultBackendMiddleware" is not found '
             'in MIDDLEWARE_CLASSES nor MIDDLEWARE. It is required to use AuthorDefaultBackend',
         ):
             entry.save()

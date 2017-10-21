@@ -123,7 +123,7 @@ MIDDLEWARE_CLASSES.append('author.middlewares.AuthorDefaultBackendMiddleware')
 
 MIDDLEWARE = []
 MIDDLEWARE += BASE_MIDDLEWARES
-MIDDLEWARE.append('author.middlewares.AuthorDefaultBackendMiddlewareNewStyle')
+MIDDLEWARE.append('author.middlewares.AuthorDefaultBackendMiddleware')
 
 ROOT_URLCONF = 'urls'
 

@@ -23,7 +23,6 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-import django
 from django.conf import settings
 from django.contrib import auth
 from django.core.exceptions import ImproperlyConfigured
@@ -42,10 +41,7 @@ class AuthorDefaultBackend(object):
 
     def __init__(self):
 
-        if django.VERSION >= (1, 10):
-            required_middleware = 'author.middlewares.AuthorDefaultBackendMiddlewareNewStyle'
-        else:
-            required_middleware = 'author.middlewares.AuthorDefaultBackendMiddleware'
+        required_middleware = 'author.middlewares.AuthorDefaultBackendMiddleware'
 
         if (
                 required_middleware not in settings.MIDDLEWARE_CLASSES and

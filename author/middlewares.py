@@ -49,7 +49,7 @@ class AuthorDefaultBackendMiddleware(object):
 if django.VERSION >= (1, 10):
     from django.utils import deprecation
 
-    class AuthorDefaultBackendMiddlewareNewStyle(
+    class AuthorDefaultBackendMiddleware(
             deprecation.MiddlewareMixin,
             AuthorDefaultBackendMiddleware,
     ):
