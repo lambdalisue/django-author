@@ -26,6 +26,10 @@ __VERSION__ = "0.1.0"
 
 from author.decorators import with_author
 
+try:
+    from django.urls import reverse
+except ImportError:  # Django<2.0
+    from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -69,9 +73,8 @@ class Entry(models.Model):
     def __unicode__(self):
         return self.title
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('blog-entry-detail', (), {'slug': self.title})
+        return reverse('blog-entry-detail', None, (), {'slug': self.title})
 
     def clean(self):
         """custom validation"""
