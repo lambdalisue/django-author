@@ -26,10 +26,14 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from threading import local
 
-import django
-
 __all__ = ['get_request', 'AuthorDefaultBackendMiddleware']
 _thread_locals = local()
+
+try:
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    # Pre Django 1.10 middleware does not require the mixin.
+    MiddlewareMixin = object
 
 
 def get_request():
@@ -37,20 +41,10 @@ def get_request():
     return getattr(_thread_locals, 'request', None)
 
 
-class AuthorDefaultBackendMiddleware(object):
+class AuthorDefaultBackendMiddleware(MiddlewareMixin):
     def process_request(self, request):
         _thread_locals.request = request
 
     def process_response(self, request, response):
         _thread_locals.request = None
         return response
-
-
-if django.VERSION >= (1, 10):
-    from django.utils import deprecation
-
-    class AuthorDefaultBackendMiddleware(
-            deprecation.MiddlewareMixin,
-            AuthorDefaultBackendMiddleware,
-    ):
-        pass
