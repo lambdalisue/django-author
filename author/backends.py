@@ -43,9 +43,13 @@ class AuthorDefaultBackend(object):
 
         required_middleware = 'author.middlewares.AuthorDefaultBackendMiddleware'
 
+        if hasattr(settings, 'MIDDLEWARE'):
+            middlewares = settings.MIDDLEWARE
+        else:
+            middlewares = settings.MIDDLEWARE_CLASSES
+
         if (
-                required_middleware not in settings.MIDDLEWARE_CLASSES and
-                required_middleware not in settings.MIDDLEWARE
+                required_middleware not in middlewares
         ):
             raise ImproperlyConfigured(
                 'Error "%s" is not found in MIDDLEWARE_CLASSES nor MIDDLEWARE. '
