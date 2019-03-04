@@ -31,7 +31,6 @@ from django.utils.translation import gettext_lazy as _
 
 def with_author(cls):
     """Decorator to add created_by/updated_by field to particular model"""
-    verbose_name_plural = cls._meta.object_name
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         verbose_name=_('author'),
