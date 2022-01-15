@@ -37,21 +37,27 @@ from mock import patch
 
 
 class TestPreSaveCallback(TestCase):
+    @patch('author.backends.AuthorDefaultBackend.get_user')
     @override_settings(
         AUTHOR_IGNORE_MODELS=['blog.entry'],
     )
-    def test_ignore_models(self):
+    def test_ignore_models(self, get_user):
         """blog.Entry: setting author on ignored models doesn't do anything"""
+        user = User.objects.create()
+        get_user.return_value = user
         instance = models.Entry.objects.create()
         recivers.pre_save_callback(None, instance)
         self.assertEqual(instance.author, None)
         self.assertEqual(instance.updated_by, None)
 
+    @patch('author.backends.AuthorDefaultBackend.get_user')
     @override_settings(
         AUTHOR_CREATED_BY_FIELD_NAME='foo',
     )
-    def test_ignore_models_created_field(self):
+    def test_ignore_models_created_field(self, get_user):
         """blog.Entry: setting author on nonexistent field doesn't do anything"""
+        user = User.objects.create()
+        get_user.return_value = user
         instance = models.Entry.objects.create()
         recivers.pre_save_callback(None, instance)
         self.assertEqual(instance.author, None)
