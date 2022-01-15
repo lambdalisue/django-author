@@ -24,29 +24,29 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
 urlpatterns = (
-    url(r'^$', views.EntryListView.as_view(), name='blog-entry-list'),
-    url(
-        r'^create/$',
+    path('', views.EntryListView.as_view(), name='blog-entry-list'),
+    path(
+        'create/',
         views.EntryCreateView.as_view(),
         name='blog-entry-create',
     ),
-    url(
-        r'^update/(?P<pk>\d+)/$',
+    path(
+        'update/<int:pk>/',
         views.EntryUpdateView.as_view(),
         name='blog-entry-update',
     ),
-    url(
-        r'^delete/(?P<pk>\d+)/$',
+    path(
+        'delete/<int:pk>/',
         views.EntryDeleteView.as_view(),
         name='blog-entry-delete',
     ),
-    url(
-        r'^(?P<slug>[^/]+)/$',
+    path(
+        '<slug:slug>/',
         views.EntryDetailView.as_view(),
         name='blog-entry-detail',
     ),

@@ -1,20 +1,20 @@
-from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import login, logout
+from django.urls import include, path
 
 admin.autodiscover()
 
 urlpatterns = (
-    url(r'^admin/', admin.site.urls),
-    url(
-        r'^registration/login/$',
+    path('admin/', admin.site.urls),
+    path(
+        'registration/login/',
         login,
         name='login',
     ),
-    url(
-        r'^registration/logout/$',
+    path(
+        'registration/logout/',
         logout,
         name='logout',
     ),
-    url(r'^', include('blog.urls')),
+    path('', include('blog.urls')),
 )
