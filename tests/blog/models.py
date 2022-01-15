@@ -31,7 +31,7 @@ try:
 except ImportError:  # Django<2.0
     from django.core.urlresolvers import reverse
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
 # This class decorator (@with_author) is all you need to add `author` and `updated_by` field
