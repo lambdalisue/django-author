@@ -43,10 +43,7 @@ class AuthorDefaultBackend(object):
 
         required_middleware = 'author.middlewares.AuthorDefaultBackendMiddleware'
 
-        if hasattr(settings, 'MIDDLEWARE'):
-            middlewares = settings.MIDDLEWARE
-        else:
-            middlewares = settings.MIDDLEWARE_CLASSES
+        middlewares = settings.MIDDLEWARE
 
         if (
                 required_middleware not in middlewares
