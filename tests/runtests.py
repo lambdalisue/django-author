@@ -39,10 +39,7 @@ from django.test.utils import get_runner  # noqa
 def runtests(verbosity=1, interactive=True):
     TestRunner = get_runner(settings)
     test_runner = TestRunner(verbosity=verbosity, interactive=interactive)
-    try:
-        django.setup()
-    except AttributeError:  # Django < 1.7
-        pass
+    django.setup()
     failures = test_runner.run_tests([])
     sys.exit(bool(failures))
 
