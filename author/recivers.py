@@ -36,8 +36,9 @@ def pre_save_callback(sender, instance, **kwargs):
     from . import get_backend
 
     if (
-        hasattr(instance, 'app_label')
-        and "%s.%s" % (instance.app_label, instance.model) in settings.AUTHOR_IGNORE_MODELS
+        hasattr(instance._meta, 'app_label')
+        and "%s.%s" % (instance._meta.app_label, instance._meta.model_name)
+        in settings.AUTHOR_IGNORE_MODELS
     ):
         return
     if not hasattr(instance, settings.AUTHOR_CREATED_BY_FIELD_NAME):
