@@ -1,1 +1,2 @@
+recursive-exclude tests *
 recursive-include author/locale *.po *.mo

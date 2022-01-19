@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.0.4 (2022-01-19)
+-------------------
+* Don't include tests in PyPI package
+
 1.0.3 (2022-01-15)
 -------------------
 * Update to Django 4.0
