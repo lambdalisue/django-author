@@ -80,6 +80,17 @@ class TestPreSaveCallback(TestCase):
         self.assertEqual(instance.author, user)
         self.assertEqual(instance.updated_by, user)
 
+    @patch('author.backends.AuthorDefaultBackend.get_user')
+    def test_callback_no_updated_by(self, get_user):
+        """blog.Entry: callbacks runned """
+        user = User.objects.create()
+        get_user.return_value = user
+        instance = models.Entry.objects.create()
+        instance._change_updated_by = False
+        recivers.pre_save_callback(None, instance)
+        self.assertEqual(instance.author, user)
+        self.assertEqual(instance.updated_by, None)
+
 
 class TestBlankSettingsTestCase(TestCase):
     @override_settings(
