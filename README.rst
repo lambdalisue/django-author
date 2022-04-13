@@ -49,6 +49,8 @@ Usage
 
     If you are in truble, see ``author_test`` directory for usage sample.
 
+5. If you want to forbid modification of the ``updated_by`` field for some actions, just set ``instance._change_updated_by = False`` before calling ``save()``.
+
 
 Settings
 ================

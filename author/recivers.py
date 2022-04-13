@@ -49,6 +49,8 @@ def pre_save_callback(sender, instance, **kwargs):
         return
     if getattr(instance, settings.AUTHOR_CREATED_BY_FIELD_NAME) is None:
         setattr(instance, settings.AUTHOR_CREATED_BY_FIELD_NAME, user)
+    if not getattr(instance, "_change_updated_by", True):  # User forbid to modify updated_by field
+        return
     if hasattr(instance, settings.AUTHOR_UPDATED_BY_FIELD_NAME):
         setattr(instance, settings.AUTHOR_UPDATED_BY_FIELD_NAME, user)
 
