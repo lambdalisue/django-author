@@ -24,9 +24,10 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
+from .conf import settings
 
 
 def with_author(cls):

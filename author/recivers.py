@@ -26,8 +26,9 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 import logging
 
-from django.conf import settings
 from django.db.models.signals import pre_save
+
+from .conf import settings
 
 
 logger = logging.getLogger(__name__)

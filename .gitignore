@@ -13,3 +13,6 @@
 *.pyc
 *.swp
 *~
+
+# IDE
+.idea
