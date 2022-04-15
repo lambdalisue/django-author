@@ -31,7 +31,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from mock import patch
 
-from author import recivers
+from author import receivers
 
 
 class TestPreSaveCallback(TestCase):
@@ -44,7 +44,7 @@ class TestPreSaveCallback(TestCase):
         user = User.objects.create()
         get_user.return_value = user
         instance = models.Entry.objects.create()
-        recivers.pre_save_callback(None, instance)
+        receivers.pre_save_callback(None, instance)
         self.assertEqual(instance.author, None)
         self.assertEqual(instance.updated_by, None)
 
@@ -57,14 +57,14 @@ class TestPreSaveCallback(TestCase):
         user = User.objects.create()
         get_user.return_value = user
         instance = models.Entry.objects.create()
-        recivers.pre_save_callback(None, instance)
+        receivers.pre_save_callback(None, instance)
         self.assertEqual(instance.author, None)
         self.assertEqual(instance.updated_by, None)
 
     def test_callback_no_user(self):
         """blog.Entry: setting author is ignored"""
         instance = models.Entry.objects.create()
-        recivers.pre_save_callback(None, instance)
+        receivers.pre_save_callback(None, instance)
         self.assertEqual(instance.author, None)
         self.assertEqual(instance.updated_by, None)
 
@@ -74,7 +74,7 @@ class TestPreSaveCallback(TestCase):
         user = User.objects.create()
         get_user.return_value = user
         instance = models.Entry.objects.create()
-        recivers.pre_save_callback(None, instance)
+        receivers.pre_save_callback(None, instance)
         self.assertEqual(instance.author, user)
         self.assertEqual(instance.updated_by, user)
 
@@ -85,7 +85,7 @@ class TestPreSaveCallback(TestCase):
         get_user.return_value = user
         instance = models.Entry.objects.create()
         instance._change_updated_by = False
-        recivers.pre_save_callback(None, instance)
+        receivers.pre_save_callback(None, instance)
         self.assertEqual(instance.author, user)
         self.assertEqual(instance.updated_by, None)
 
@@ -96,9 +96,9 @@ class TestBlankSettingsTestCase(TestCase):
     )
     def test_author_models_settings_blank(self):
         """blog.Entry: callbacks are not created"""
-        pre_save.disconnect(recivers.pre_save_callback)
+        pre_save.disconnect(receivers.pre_save_callback)
         self.assertEqual(pre_save._live_receivers(models.Entry), [])
-        recivers.register()
+        receivers.register()
         self.assertEqual(pre_save._live_receivers(models.Entry), [])
 
 
@@ -109,5 +109,5 @@ class TestSettingsTestCase(TestCase):
     def test_author_models_settings(self):
         """blog.Entry: callbacks are created"""
         self.assertEqual(pre_save._live_receivers(models.Entry), [])
-        recivers.register()
-        self.assertEqual(pre_save._live_receivers(models.Entry)[0], recivers.pre_save_callback)
+        receivers.register()
+        self.assertEqual(pre_save._live_receivers(models.Entry)[0], receivers.pre_save_callback)
