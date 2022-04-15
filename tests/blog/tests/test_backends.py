@@ -24,15 +24,13 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 
+import settings
 from blog import models
-
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
 from django.test.utils import override_settings
-
-import settings
 
 
 class AuthorBackendTestCase(TestCase):

@@ -27,6 +27,7 @@ __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 import os
 import sys
 
+
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 test_dir = os.path.dirname(__file__)
 sys.path.insert(0, test_dir)

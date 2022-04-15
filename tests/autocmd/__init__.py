@@ -26,6 +26,8 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.conf import settings
 from django.db import models
+
+
 try:
     from django.contrib.auth.management import create_superuser
 except ImportError:

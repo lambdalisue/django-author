@@ -24,14 +24,11 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 __VERSION__ = "0.1.0"
 
-from author.decorators import with_author
-
-try:
-    from django.urls import reverse
-except ImportError:  # Django<2.0
-    from django.core.urlresolvers import reverse
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+
+from author.decorators import with_author
 
 
 # This class decorator (@with_author) is all you need to add `author` and `updated_by` field
