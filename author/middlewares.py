@@ -26,8 +26,6 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from threading import local
 
-from django.utils.deprecation import MiddlewareMixin
-
 
 __all__ = ['get_request', 'AuthorDefaultBackendMiddleware']
 _thread_locals = local()
@@ -38,10 +36,12 @@ def get_request():
     return getattr(_thread_locals, 'request', None)
 
 
-class AuthorDefaultBackendMiddleware(MiddlewareMixin):
-    def process_request(self, request):
-        _thread_locals.request = request
+class AuthorDefaultBackendMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
 
-    def process_response(self, request, response):
+    def __call__(self, request):
+        _thread_locals.request = request
+        response = self.get_response(request)
         _thread_locals.request = None
         return response
