@@ -1,8 +1,8 @@
 *************
 django-author
 *************
-.. image:: https://travis-ci.org/lambdalisue/django-author.svg
-    :target: https://travis-ci.org/lambdalisue/django-author
+.. image:: https://github.com/lambdalisue/django-author/actions/workflows/main.yml/badge.svg
+    :target: https://github.com/lambdalisue/django-author/actions
 .. image:: https://coveralls.io/repos/github/lambdalisue/django-author/badge.svg?branch=master
     :target: https://coveralls.io/github/lambdalisue/django-author?branch=master
     
