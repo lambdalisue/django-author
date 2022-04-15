@@ -2,7 +2,7 @@
 django-author
 *************
 .. image:: https://github.com/lambdalisue/django-author/actions/workflows/main.yml/badge.svg
-    :target: https://github.com/lambdalisue/django-author/actions
+    :target: https://github.com/lambdalisue/django-author/actions/workflows/main.yml
 .. image:: https://coveralls.io/repos/github/lambdalisue/django-author/badge.svg?branch=master
     :target: https://coveralls.io/github/lambdalisue/django-author?branch=master
     
