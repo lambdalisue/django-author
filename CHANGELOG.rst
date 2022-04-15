@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.1.0 (2022-04-15)
+-------------------
+* Make possible to set ``instance._change_updated_by`` option to allow not saving ``updated_by`` choice
+
 1.0.4 (2022-01-19)
 -------------------
 * Don't include tests in PyPI package
