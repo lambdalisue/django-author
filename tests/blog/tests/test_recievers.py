@@ -24,16 +24,14 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 
-from author import recivers
-
 from blog import models
-
 from django.contrib.auth.models import User
 from django.db.models.signals import pre_save
 from django.test import TestCase
 from django.test.utils import override_settings
-
 from mock import patch
+
+from author import recivers
 
 
 class TestPreSaveCallback(TestCase):

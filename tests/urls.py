@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import login, logout
 from django.urls import include, path
 
+
 admin.autodiscover()
 
 urlpatterns = (

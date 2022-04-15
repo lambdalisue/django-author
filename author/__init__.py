@@ -35,8 +35,8 @@ from importlib import import_module
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
-from . import backends
-from . import recivers
+from . import backends, recivers
+
 
 settings.AUTHOR_BACKEND = getattr(settings, 'AUTHOR_BACKEND', backends.AuthorDefaultBackend)
 

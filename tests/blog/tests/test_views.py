@@ -50,8 +50,8 @@ class EntryViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_with_author(self):
-        from django.contrib.auth.models import User
         from blog import models
+        from django.contrib.auth.models import User
         response = self.client.post(
             '/create/',
             {
@@ -110,8 +110,8 @@ class EntryViewTestCase(TestCase):
         If the request is created, then user is logged off
         and another object is created in the same session, it failed.
         """
-        from django.contrib.auth.models import User
         from blog import models
+        from django.contrib.auth.models import User
 
         try:  # Django >= 1.9
             self.client.force_login(User.objects.get(username='admin'))

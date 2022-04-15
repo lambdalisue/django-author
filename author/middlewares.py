@@ -28,6 +28,7 @@ from threading import local
 
 from django.utils.deprecation import MiddlewareMixin
 
+
 __all__ = ['get_request', 'AuthorDefaultBackendMiddleware']
 _thread_locals = local()
 

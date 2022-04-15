@@ -25,7 +25,6 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 
 from blog import models
-
 from django.test import TestCase
 
 
