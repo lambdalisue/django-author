@@ -43,7 +43,7 @@ class AuthorBackendTestCase(TestCase):
     def test_improperly_configured(self):
         """Test, that if author backend is missing, it throws error"""
         entry = models.Entry(title='foo', body='bar')
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
             ImproperlyConfigured,
             r'Error "author.middlewares.AuthorDefaultBackendMiddleware" is not found '
             'in MIDDLEWARE_CLASSES nor MIDDLEWARE. It is required to use AuthorDefaultBackend',
@@ -89,7 +89,7 @@ class AuthorBackendSettingsTestCase(TestCase):
     )
     def test_unexistent_backend(self):
         entry = models.Entry(title='foo', body='bar')
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
             ImproperlyConfigured,
             'Module "author.backends" does not define a "FooBackend" author backend',
         ):
@@ -100,7 +100,7 @@ class AuthorBackendSettingsTestCase(TestCase):
     )
     def test_wrong_class(self):
         entry = models.Entry(title='foo', body='bar')
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
             ImproperlyConfigured,
             'Error author backend must have "get_user" method Please define it in 1234',
         ):
@@ -111,7 +111,7 @@ class AuthorBackendSettingsTestCase(TestCase):
     )
     def test_error_importing(self):
         entry = models.Entry(title='foo', body='bar')
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
             ImproperlyConfigured,
             r'Error importing author backend foo: "No module named \'?fo\'?',
         ):
@@ -122,7 +122,7 @@ class AuthorBackendSettingsTestCase(TestCase):
     )
     def test_value_error(self):
         entry = models.Entry(title='foo', body='bar')
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
             ImproperlyConfigured,
             'Error importing author backend. Is AUTHOR_BACKEND a correctly defined?',
         ):
