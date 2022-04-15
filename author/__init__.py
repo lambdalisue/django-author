@@ -35,8 +35,7 @@ from importlib import import_module
 from django.core.exceptions import ImproperlyConfigured
 
 from .conf import settings
-from . import backends, recivers
-
+from . import backends, receivers
 
 
 def load_backend(path):
@@ -84,4 +83,4 @@ def get_backend():
 
 
 # Register receivers
-recivers.register()
+receivers.register()

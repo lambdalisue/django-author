@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # vim: set fileencoding=utf8:
 """
-signal recivers for django-author
+signal receivers for django-author
 
 
 AUTHOR:
