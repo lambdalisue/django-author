@@ -71,4 +71,4 @@ class AuthorSettingsTestCase(TestCase):
     def test_unknown_setting(self):
         """Test an unknown setting"""
         with self.assertRaises(AttributeError):
-            blah = settings.UNKNOWN_SETTING
+            _ = settings.UNKNOWN_SETTING
