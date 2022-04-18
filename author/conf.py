@@ -1,5 +1,6 @@
 from django.conf import settings as dj_settings
 
+
 DEFAULTS = {
     'AUTHOR_MODELS': None,
     'AUTHOR_DO_NOT_UPDATE_WHILE_USER_IS_NONE': True,
