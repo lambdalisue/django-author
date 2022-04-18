@@ -1,6 +1,6 @@
 # vim: set fileencoding=utf8:
 """
-Unittest module of ...
+Unittest module of receivers
 
 
 AUTHOR:
