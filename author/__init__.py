@@ -61,7 +61,8 @@ def load_backend(path):
 
 def get_backend_class():
     """get author backend"""
-    backend = settings.AUTHOR_BACKEND
+    from .backends import AuthorDefaultBackend
+    backend = getattr(settings, 'AUTHOR_BACKEND', AuthorDefaultBackend)
     try:
         is_backend_string = isinstance(backend, basestring)
     except NameError:

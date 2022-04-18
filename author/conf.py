@@ -1,42 +1,32 @@
 from django.conf import settings as dj_settings
 
+DEFAULTS = {
+    'AUTHOR_MODELS': None,
+    'AUTHOR_DO_NOT_UPDATE_WHILE_USER_IS_NONE': True,
+    'AUTHOR_IGNORE_MODELS': [
+        'auth.user',
+        'auth.group',
+        'auth.permission',
+        'contenttypes.contenttype',
+    ],
+    'AUTHOR_UPDATED_BY_FIELD_NAME': 'updated_by',
+    'AUTHOR_CREATED_BY_FIELD_NAME': 'author',
+}
+
 
 class Settings:
-    """Lazy settings"""
+    """
+    Lazy settings wrapper, for use in app-specific conf.py files
+    """
+    def __init__(self, defaults):
+        """
+        Constructor
 
-    @property
-    def AUTHOR_BACKEND(self):
-        from .backends import AuthorDefaultBackend
-        return getattr(dj_settings, 'AUTHOR_BACKEND', AuthorDefaultBackend)
-
-    @property
-    def AUTHOR_CREATED_BY_FIELD_NAME(self):
-        return getattr(dj_settings, 'AUTHOR_CREATED_BY_FIELD_NAME', 'author')
-
-    @property
-    def AUTHOR_UPDATED_BY_FIELD_NAME(self):
-        return getattr(dj_settings, 'AUTHOR_UPDATED_BY_FIELD_NAME', 'updated_by')
-
-    @property
-    def AUTHOR_DO_NOT_UPDATE_WHILE_USER_IS_NONE(self):
-        return getattr(dj_settings, 'AUTHOR_DO_NOT_UPDATE_WHILE_USER_IS_NONE', True)
-
-    @property
-    def AUTHOR_MODELS(self):
-        return getattr(dj_settings, 'AUTHOR_MODELS', None)
-
-    @property
-    def AUTHOR_IGNORE_MODELS(self):
-        return getattr(
-            dj_settings,
-            'AUTHOR_IGNORE_MODELS',
-            [
-                'auth.user',
-                'auth.group',
-                'auth.permission',
-                'contenttypes.contenttype',
-            ],
-        )
+        :param defaults: default values for settings, will be return if
+                         not overridden in the project settings
+        :type defaults: dict
+        """
+        self.defaults = defaults
 
     def __getattr__(self, name):
         """
@@ -52,10 +42,10 @@ class Settings:
         if hasattr(dj_settings, name):
             return getattr(dj_settings, name)
 
-        if hasattr(self, name):
-            return getattr(self, name)
+        if name in self.defaults:
+            return self.defaults[name]
 
         raise AttributeError("'{name}' setting not found".format(name=name))
 
 
-settings = Settings()
+settings = Settings(DEFAULTS)

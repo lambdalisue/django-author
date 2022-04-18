@@ -37,12 +37,6 @@ class AuthorSettingsTestCase(TestCase):
         time_zone = settings.TIME_ZONE
         self.assertEqual(time_zone, 'America/Chicago')
 
-    def test_author_backend(self):
-        """Test the default author backend setting"""
-        from author.backends import AuthorDefaultBackend
-        backend = settings.AUTHOR_BACKEND
-        self.assertEqual(backend, AuthorDefaultBackend)
-
     def test_author_created_by_field(self):
         """Test the default author created by field name"""
         field_name = settings.AUTHOR_CREATED_BY_FIELD_NAME
@@ -54,17 +48,17 @@ class AuthorSettingsTestCase(TestCase):
         self.assertEqual(field_name, 'updated_by')
 
     def test_author_not_update(self):
-        """Test the default author updated by field name"""
+        """Test the default author 'do not updated while user is none' setting"""
         not_update = settings.AUTHOR_DO_NOT_UPDATE_WHILE_USER_IS_NONE
         self.assertTrue(not_update)
 
     def test_author_models(self):
-        """Test the default author updated by field name"""
+        """Test the default author models"""
         author_models = settings.AUTHOR_MODELS
         self.assertIsNone(author_models)
 
     def test_author_ignore_models(self):
-        """Test the default author updated by field name"""
+        """Test the default ignored models"""
         ignore_models = settings.AUTHOR_IGNORE_MODELS
         expected_ignored = [
             'auth.user',
@@ -73,3 +67,8 @@ class AuthorSettingsTestCase(TestCase):
             'contenttypes.contenttype',
         ]
         self.assertEqual(ignore_models, expected_ignored)
+
+    def test_unknown_setting(self):
+        """Test an unknown setting"""
+        with self.assertRaises(AttributeError):
+            blah = settings.UNKNOWN_SETTING
