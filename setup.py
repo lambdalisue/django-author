@@ -10,7 +10,7 @@ from setuptools import Command, find_packages, setup
 from setuptools.command.sdist import sdist as original_sdist
 
 
-version = "1.1.0"
+version = "1.2.0"
 
 
 class compile_messages(Command):
