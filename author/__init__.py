@@ -32,45 +32,10 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from importlib import import_module
 
-from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
-from . import backends, recivers
-
-
-settings.AUTHOR_BACKEND = getattr(settings, 'AUTHOR_BACKEND', backends.AuthorDefaultBackend)
-
-settings.AUTHOR_CREATED_BY_FIELD_NAME = getattr(
-    settings,
-    'AUTHOR_CREATED_BY_FIELD_NAME',
-    'author',
-)
-settings.AUTHOR_UPDATED_BY_FIELD_NAME = getattr(
-    settings,
-    'AUTHOR_UPDATED_BY_FIELD_NAME',
-    'updated_by',
-)
-settings.AUTHOR_DO_NOT_UPDATE_WHILE_USER_IS_NONE = getattr(
-    settings,
-    'AUTHOR_DO_NOT_UPDATE_WHILE_USER_IS_NONE',
-    True,
-)
-
-settings.AUTHOR_MODELS = getattr(
-    settings,
-    'AUTHOR_MODELS',
-    None,
-)
-settings.AUTHOR_IGNORE_MODELS = getattr(
-    settings,
-    'AUTHOR_IGNORE_MODELS',
-    [
-        'auth.user',
-        'auth.group',
-        'auth.permission',
-        'contenttypes.contenttype',
-    ],
-)
+from . import receivers
+from .conf import settings
 
 
 def load_backend(path):
@@ -96,7 +61,8 @@ def load_backend(path):
 
 def get_backend_class():
     """get author backend"""
-    backend = settings.AUTHOR_BACKEND
+    from .backends import AuthorDefaultBackend
+    backend = getattr(settings, 'AUTHOR_BACKEND', AuthorDefaultBackend)
     try:
         is_backend_string = isinstance(backend, basestring)
     except NameError:
@@ -117,5 +83,5 @@ def get_backend():
     return backend_class()
 
 
-# Register recivers
-recivers.register()
+# Register receivers
+receivers.register()

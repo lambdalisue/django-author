@@ -23,10 +23,10 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.conf import settings
 from django.contrib import auth
 from django.core.exceptions import ImproperlyConfigured
 
+from .conf import settings
 from .middlewares import get_request
 
 
