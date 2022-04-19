@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.2.0 (2022-04-19)
+-------------------
+* Switch to using lazy settings object
+* Update middleware to Django's current style
+
 1.1.0 (2022-04-15)
 -------------------
 * Make possible to set ``instance._change_updated_by`` option to allow not saving ``updated_by`` choice
