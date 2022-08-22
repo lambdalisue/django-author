@@ -38,7 +38,7 @@ def pre_save_callback(sender, instance, **kwargs):
     from . import get_backend
 
     if (
-        hasattr(instance._meta, 'app_label')
+        hasattr(instance._meta, "app_label")
         and "%s.%s" % (instance._meta.app_label, instance._meta.model_name)
         in settings.AUTHOR_IGNORE_MODELS
     ):
@@ -51,7 +51,9 @@ def pre_save_callback(sender, instance, **kwargs):
         return
     if getattr(instance, settings.AUTHOR_CREATED_BY_FIELD_NAME) is None:
         setattr(instance, settings.AUTHOR_CREATED_BY_FIELD_NAME, user)
-    if not getattr(instance, "_change_updated_by", True):  # User forbid to modify updated_by field
+    if not getattr(
+        instance, "_change_updated_by", True
+    ):  # User forbid to modify updated_by field
         return
     if hasattr(instance, settings.AUTHOR_UPDATED_BY_FIELD_NAME):
         setattr(instance, settings.AUTHOR_UPDATED_BY_FIELD_NAME, user)
@@ -60,8 +62,9 @@ def pre_save_callback(sender, instance, **kwargs):
 def register():
     if settings.AUTHOR_MODELS:
         for model in settings.AUTHOR_MODELS:
-            app_label, model = model.split('.', 1)
+            app_label, model = model.split(".", 1)
             from django.contrib.contenttypes.models import ContentType
+
             ct = ContentType.objects.get_by_natural_key(app_label, model)
             pre_save.connect(pre_save_callback, sender=ct.model_class())
     else:

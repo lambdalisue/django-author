@@ -27,13 +27,13 @@ __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from threading import local
 
 
-__all__ = ['get_request', 'AuthorDefaultBackendMiddleware']
+__all__ = ["get_request", "AuthorDefaultBackendMiddleware"]
 _thread_locals = local()
 
 
 def get_request():
     """Get request stored in current thread"""
-    return getattr(_thread_locals, 'request', None)
+    return getattr(_thread_locals, "request", None)
 
 
 class AuthorDefaultBackendMiddleware:

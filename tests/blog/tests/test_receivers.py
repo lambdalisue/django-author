@@ -35,9 +35,9 @@ from author import receivers
 
 
 class TestPreSaveCallback(TestCase):
-    @patch('author.backends.AuthorDefaultBackend.get_user')
+    @patch("author.backends.AuthorDefaultBackend.get_user")
     @override_settings(
-        AUTHOR_IGNORE_MODELS=['blog.entry'],
+        AUTHOR_IGNORE_MODELS=["blog.entry"],
     )
     def test_ignore_models(self, get_user):
         """blog.Entry: setting author on ignored models doesn't do anything"""
@@ -48,9 +48,9 @@ class TestPreSaveCallback(TestCase):
         self.assertEqual(instance.author, None)
         self.assertEqual(instance.updated_by, None)
 
-    @patch('author.backends.AuthorDefaultBackend.get_user')
+    @patch("author.backends.AuthorDefaultBackend.get_user")
     @override_settings(
-        AUTHOR_CREATED_BY_FIELD_NAME='foo',
+        AUTHOR_CREATED_BY_FIELD_NAME="foo",
     )
     def test_ignore_models_created_field(self, get_user):
         """blog.Entry: setting author on nonexistent field doesn't do anything"""
@@ -68,9 +68,9 @@ class TestPreSaveCallback(TestCase):
         self.assertEqual(instance.author, None)
         self.assertEqual(instance.updated_by, None)
 
-    @patch('author.backends.AuthorDefaultBackend.get_user')
+    @patch("author.backends.AuthorDefaultBackend.get_user")
     def test_callback(self, get_user):
-        """blog.Entry: callbacks runned """
+        """blog.Entry: callbacks runned"""
         user = User.objects.create()
         get_user.return_value = user
         instance = models.Entry.objects.create()
@@ -78,9 +78,9 @@ class TestPreSaveCallback(TestCase):
         self.assertEqual(instance.author, user)
         self.assertEqual(instance.updated_by, user)
 
-    @patch('author.backends.AuthorDefaultBackend.get_user')
+    @patch("author.backends.AuthorDefaultBackend.get_user")
     def test_callback_no_updated_by(self, get_user):
-        """blog.Entry: callbacks runned """
+        """blog.Entry: callbacks runned"""
         user = User.objects.create()
         get_user.return_value = user
         instance = models.Entry.objects.create()
@@ -92,7 +92,7 @@ class TestPreSaveCallback(TestCase):
 
 class TestBlankSettingsTestCase(TestCase):
     @override_settings(
-        AUTHOR_MODELS=['auth.user'],
+        AUTHOR_MODELS=["auth.user"],
     )
     def test_author_models_settings_blank(self):
         """blog.Entry: callbacks are not created"""
@@ -104,10 +104,12 @@ class TestBlankSettingsTestCase(TestCase):
 
 class TestSettingsTestCase(TestCase):
     @override_settings(
-        AUTHOR_MODELS=['blog.entry'],
+        AUTHOR_MODELS=["blog.entry"],
     )
     def test_author_models_settings(self):
         """blog.Entry: callbacks are created"""
         self.assertEqual(pre_save._live_receivers(models.Entry), [])
         receivers.register()
-        self.assertEqual(pre_save._live_receivers(models.Entry)[0], receivers.pre_save_callback)
+        self.assertEqual(
+            pre_save._live_receivers(models.Entry)[0], receivers.pre_save_callback
+        )

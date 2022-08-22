@@ -55,15 +55,16 @@ class Entry(models.Model):
     >>> assert callable(getattr(entry, '__unicode__'))
     >>> assert callable(getattr(entry, 'get_absolute_url'))
     """
-    title = models.CharField(_('title'), max_length=50, unique=True)
-    body = models.TextField(_('body'))
+
+    title = models.CharField(_("title"), max_length=50, unique=True)
+    body = models.TextField(_("body"))
 
     created_at = models.DateTimeField(
-        _('date and time created'),
+        _("date and time created"),
         auto_now_add=True,
     )
     updated_at = models.DateTimeField(
-        _('date and time updated'),
+        _("date and time updated"),
         auto_now=True,
     )
 
@@ -71,11 +72,13 @@ class Entry(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('blog-entry-detail', None, (), {'slug': self.title})
+        return reverse("blog-entry-detail", None, (), {"slug": self.title})
 
     def clean(self):
         """custom validation"""
         from django.core.exceptions import ValidationError
-        if self.title in ('create', 'update', 'delete'):
+
+        if self.title in ("create", "update", "delete"):
             raise ValidationError(
-                """The title cannot be 'create', 'update' or 'delete'""")
+                """The title cannot be 'create', 'update' or 'delete'"""
+            )

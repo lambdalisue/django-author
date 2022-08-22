@@ -31,8 +31,10 @@ from django.db import models
 try:
     from django.contrib.auth.management import create_superuser
 except ImportError:
+
     def create_superuser(*args, **kwargs):
         pass
+
 
 try:
     from django.db.models.signals import post_migrate
@@ -40,7 +42,7 @@ except ImportError:
     from django.db.models.signals import post_syncdb as post_migrate
 # from django.contrib.auth import models as auth_models
 
-settings.AUTO_CREATE_USER = getattr(settings, 'AUTO_CREATE_USER', True)
+settings.AUTO_CREATE_USER = getattr(settings, "AUTO_CREATE_USER", True)
 
 if settings.DEBUG and settings.AUTO_CREATE_USER:
     # From http://stackoverflow.com/questions/1466827/ --
@@ -51,12 +53,12 @@ if settings.DEBUG and settings.AUTO_CREATE_USER:
     #
     # Create our own test user automatically.
     def create_testuser(app, created_models, verbosity, **kwargs):
-        USERNAME = getattr(settings, 'QWERT_AUTO_CREATE_USERNAME', 'admin')
-        PASSWORD = getattr(settings, 'QWERT_AUTO_CREATE_PASSWORD', 'admin')
-        EMAIL = getattr(settings, 'QWERT_AUTO_CREATE_EMAIL', 'x@x.com')
+        USERNAME = getattr(settings, "QWERT_AUTO_CREATE_USERNAME", "admin")
+        PASSWORD = getattr(settings, "QWERT_AUTO_CREATE_PASSWORD", "admin")
+        EMAIL = getattr(settings, "QWERT_AUTO_CREATE_EMAIL", "x@x.com")
 
-        if getattr(settings, 'QWERT_AUTO_CREATE_USER', None):
-            User = models.get_model(*settings.QWERT_AUTO_CREATE_USER.rsplit('.', 1))
+        if getattr(settings, "QWERT_AUTO_CREATE_USER", None):
+            User = models.get_model(*settings.QWERT_AUTO_CREATE_USER.rsplit(".", 1))
         else:
             from django.contrib.auth.models import User
 
@@ -64,20 +66,27 @@ if settings.DEBUG and settings.AUTO_CREATE_USER:
             User.objects.get(username=USERNAME)
         except User.DoesNotExist:
             if verbosity > 0:
-                print('*' * 80)
-                print('Creating test user -- login: %s, password: %s' % (USERNAME, PASSWORD))
-                print('*' * 80)
+                print("*" * 80)
+                print(
+                    "Creating test user -- login: %s, password: %s"
+                    % (USERNAME, PASSWORD)
+                )
+                print("*" * 80)
             assert User.objects.create_superuser(USERNAME, EMAIL, PASSWORD)
         else:
             if verbosity > 0:
-                print('Test user already exists. -- login: %s, password: %s' % (USERNAME, PASSWORD))
+                print(
+                    "Test user already exists. -- login: %s, password: %s"
+                    % (USERNAME, PASSWORD)
+                )
+
     post_migrate.disconnect(
         create_superuser,
         sender="django.contrib.auth.models",
-        dispatch_uid='django.contrib.auth.management.create_superuser',
+        dispatch_uid="django.contrib.auth.management.create_superuser",
     )
     post_migrate.connect(
         create_testuser,
         sender="django.contrib.auth.models",
-        dispatch_uid='common.models.create_testuser',
+        dispatch_uid="common.models.create_testuser",
     )

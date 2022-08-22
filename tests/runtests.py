@@ -28,7 +28,7 @@ import os
 import sys
 
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
+os.environ["DJANGO_SETTINGS_MODULE"] = "settings"
 test_dir = os.path.dirname(__file__)
 sys.path.insert(0, test_dir)
 
@@ -45,5 +45,5 @@ def runtests(verbosity=1, interactive=True):
     sys.exit(bool(failures))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     runtests()
