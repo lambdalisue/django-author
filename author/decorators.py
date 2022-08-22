@@ -32,11 +32,10 @@ from .conf import settings
 
 def with_author(cls):
     """Decorator to add created_by/updated_by field to particular model"""
-    verbose_name_plural = cls._meta.object_name
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         verbose_name=_('author'),
-        related_name='%s_create' % verbose_name_plural.lower(),
+        related_name='%(app_label)s_%(class)s_create',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -44,7 +43,7 @@ def with_author(cls):
     updated_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         verbose_name=_('last updated by'),
-        related_name='%s_update' % verbose_name_plural.lower(),
+        related_name='%(app_label)s_%(class)s_update',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
