@@ -40,15 +40,17 @@ from .conf import settings
 
 def load_backend(path):
     """load author backend from string path"""
-    i = path.rfind('.')
-    module, attr = path[:i], path[i + 1:]
+    i = path.rfind(".")
+    module, attr = path[:i], path[i + 1 :]
     try:
         mod = import_module(module)
     except ImportError as e:
-        raise ImproperlyConfigured('Error importing author backend %s: "%s"' % (path, e))
+        raise ImproperlyConfigured(
+            'Error importing author backend %s: "%s"' % (path, e)
+        )
     except ValueError:
         raise ImproperlyConfigured(
-            'Error importing author backend. Is AUTHOR_BACKEND a correctly defined?',
+            "Error importing author backend. Is AUTHOR_BACKEND a correctly defined?",
         )
     try:
         cls = getattr(mod, attr)
@@ -62,7 +64,8 @@ def load_backend(path):
 def get_backend_class():
     """get author backend"""
     from .backends import AuthorDefaultBackend
-    backend = getattr(settings, 'AUTHOR_BACKEND', AuthorDefaultBackend)
+
+    backend = getattr(settings, "AUTHOR_BACKEND", AuthorDefaultBackend)
     try:
         is_backend_string = isinstance(backend, basestring)
     except NameError:
@@ -70,11 +73,12 @@ def get_backend_class():
     if is_backend_string:
         backend = load_backend(backend)
 
-    if isinstance(backend, object) and hasattr(backend, 'get_user'):
+    if isinstance(backend, object) and hasattr(backend, "get_user"):
         return backend
     else:
         raise ImproperlyConfigured(
-            'Error author backend must have "get_user" method Please define it in %s.' % backend,
+            'Error author backend must have "get_user" method Please define it in %s.'
+            % backend,
         )
 
 

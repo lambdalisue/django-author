@@ -41,16 +41,14 @@ class AuthorDefaultBackend(object):
 
     def __init__(self):
 
-        required_middleware = 'author.middlewares.AuthorDefaultBackendMiddleware'
+        required_middleware = "author.middlewares.AuthorDefaultBackendMiddleware"
 
         middlewares = settings.MIDDLEWARE
 
-        if (
-                required_middleware not in middlewares
-        ):
+        if required_middleware not in middlewares:
             raise ImproperlyConfigured(
                 'Error "%s" is not found in MIDDLEWARE_CLASSES nor MIDDLEWARE. '
-                'It is required to use AuthorDefaultBackend' % required_middleware,
+                "It is required to use AuthorDefaultBackend" % required_middleware,
             )
 
     def _get_user_model(self):
@@ -64,7 +62,7 @@ class AuthorDefaultBackend(object):
     def get_user(self):
         """get current user"""
         request = self._get_request()
-        if request and getattr(request, 'user', None):
+        if request and getattr(request, "user", None):
             if isinstance(request.user, self._get_user_model()):
                 return request.user
         # AnonymousUser
@@ -84,7 +82,7 @@ class AuthorSystemUserBackend(AuthorDefaultBackend):
 
     def _get_filter_kwargs(self):
         """get kwargs for filtering user"""
-        return {'pk': 1}
+        return {"pk": 1}
 
     def get_system_user(self):
         """get system user"""
@@ -95,7 +93,7 @@ class AuthorSystemUserBackend(AuthorDefaultBackend):
     def get_user(self):
         """get current user"""
         request = self._get_request()
-        if request and getattr(request, 'user', None):
+        if request and getattr(request, "user", None):
             if isinstance(request.user, self._get_user_model()):
                 return request.user
         # AnonymousUser

@@ -30,25 +30,25 @@ from . import views
 
 
 urlpatterns = (
-    path('', views.EntryListView.as_view(), name='blog-entry-list'),
+    path("", views.EntryListView.as_view(), name="blog-entry-list"),
     path(
-        'create/',
+        "create/",
         views.EntryCreateView.as_view(),
-        name='blog-entry-create',
+        name="blog-entry-create",
     ),
     path(
-        'update/<int:pk>/',
+        "update/<int:pk>/",
         views.EntryUpdateView.as_view(),
-        name='blog-entry-update',
+        name="blog-entry-update",
     ),
     path(
-        'delete/<int:pk>/',
+        "delete/<int:pk>/",
         views.EntryDeleteView.as_view(),
-        name='blog-entry-delete',
+        name="blog-entry-delete",
     ),
     path(
-        '<slug:slug>/',
+        "<slug:slug>/",
         views.EntryDetailView.as_view(),
-        name='blog-entry-detail',
+        name="blog-entry-detail",
     ),
 )

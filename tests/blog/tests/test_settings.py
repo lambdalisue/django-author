@@ -35,17 +35,17 @@ class AuthorSettingsTestCase(TestCase):
     def test_a_django_setting(self):
         """Test the lazy settings fallback to django settings"""
         time_zone = settings.TIME_ZONE
-        self.assertEqual(time_zone, 'America/Chicago')
+        self.assertEqual(time_zone, "America/Chicago")
 
     def test_author_created_by_field(self):
         """Test the default author created by field name"""
         field_name = settings.AUTHOR_CREATED_BY_FIELD_NAME
-        self.assertEqual(field_name, 'author')
+        self.assertEqual(field_name, "author")
 
     def test_author_updated_by_field(self):
         """Test the default author updated by field name"""
         field_name = settings.AUTHOR_UPDATED_BY_FIELD_NAME
-        self.assertEqual(field_name, 'updated_by')
+        self.assertEqual(field_name, "updated_by")
 
     def test_author_not_update(self):
         """Test the default author 'do not updated while user is none' setting"""
@@ -61,10 +61,10 @@ class AuthorSettingsTestCase(TestCase):
         """Test the default ignored models"""
         ignore_models = settings.AUTHOR_IGNORE_MODELS
         expected_ignored = [
-            'auth.user',
-            'auth.group',
-            'auth.permission',
-            'contenttypes.contenttype',
+            "auth.user",
+            "auth.group",
+            "auth.permission",
+            "contenttypes.contenttype",
         ]
         self.assertEqual(ignore_models, expected_ignored)
 

@@ -27,79 +27,80 @@ from django.test import TestCase
 
 
 class EntryViewTestCase(TestCase):
-    fixtures = ['test.yaml']
+    fixtures = ["test.yaml"]
 
     def test_list(self):
-        response = self.client.get('/')
+        response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
 
     def test_detail(self):
-        response = self.client.get('/foo/')
+        response = self.client.get("/foo/")
         self.assertEqual(response.status_code, 200)
 
     def test_create(self):
-        response = self.client.get('/create/')
+        response = self.client.get("/create/")
         self.assertEqual(response.status_code, 200)
 
     def test_update(self):
-        response = self.client.get('/update/1/')
+        response = self.client.get("/update/1/")
         self.assertEqual(response.status_code, 200)
 
     def test_delete(self):
-        response = self.client.get('/delete/1/')
+        response = self.client.get("/delete/1/")
         self.assertEqual(response.status_code, 200)
 
     def test_with_author(self):
         from blog import models
         from django.contrib.auth.models import User
+
         response = self.client.post(
-            '/create/',
+            "/create/",
             {
-                'title': 'foo',
-                'body': 'foo',
+                "title": "foo",
+                "body": "foo",
             },
         )
         self.assertEqual(response.status_code, 200)
 
-        entry = models.Entry.objects.get(title='foo')
+        entry = models.Entry.objects.get(title="foo")
         self.assertEqual(entry.author, None)
         self.assertEqual(entry.updated_by, None)
 
         try:  # Django >= 1.9
-            self.client.force_login(User.objects.get(username='admin'))
+            self.client.force_login(User.objects.get(username="admin"))
         except AttributeError:
-            assert self.client.login(username='admin', password='password')
+            assert self.client.login(username="admin", password="password")
         response = self.client.post(
-            '/create/',
+            "/create/",
             {
-                'title': 'barbar',
-                'body': 'barbar',
+                "title": "barbar",
+                "body": "barbar",
             },
         )
         # if post success, redirect occur
         self.assertEqual(response.status_code, 302)
 
-        admin = User.objects.get(username='admin')
-        entry = models.Entry.objects.get(title='barbar')
+        admin = User.objects.get(username="admin")
+        entry = models.Entry.objects.get(title="barbar")
         self.assertEqual(entry.author, admin)
         self.assertEqual(entry.updated_by, admin)
 
         self.client.logout()
         try:  # Django >= 1.9
-            self.client.force_login(User.objects.get(username='foo'))
+            self.client.force_login(User.objects.get(username="foo"))
         except AttributeError:
-            assert self.client.login(username='foo', password='password')
+            assert self.client.login(username="foo", password="password")
         response = self.client.post(
-            '/update/%d/' % entry.pk,
+            "/update/%d/" % entry.pk,
             {
-                'title': 'barbarbar',
-                'body': 'barbarbar',
+                "title": "barbarbar",
+                "body": "barbarbar",
             },
         )
         # if post success, redirect occur
         self.assertEqual(response.status_code, 302)
 
-        foo = User.objects.get(username='foo')
+        foo = User.objects.get(username="foo")
         entry = models.Entry.objects.get(pk=entry.pk)
         self.assertEqual(entry.author, admin)
         self.assertEqual(entry.updated_by, foo)
@@ -114,22 +115,22 @@ class EntryViewTestCase(TestCase):
         from django.contrib.auth.models import User
 
         try:  # Django >= 1.9
-            self.client.force_login(User.objects.get(username='admin'))
+            self.client.force_login(User.objects.get(username="admin"))
         except AttributeError:
-            assert self.client.login(username='admin', password='password')
+            assert self.client.login(username="admin", password="password")
         response = self.client.post(
-            '/create/',
+            "/create/",
             {
-                'title': 'barbar',
-                'body': 'barbar',
+                "title": "barbar",
+                "body": "barbar",
             },
         )
         # if post success, redirect occur
         self.assertEqual(response.status_code, 302)
 
         self.client.logout()
-        User.objects.get(username='admin').delete()
-        models.Entry.objects.create(title='barbar1')
-        entry = models.Entry.objects.get(title='barbar1')
+        User.objects.get(username="admin").delete()
+        models.Entry.objects.create(title="barbar1")
+        entry = models.Entry.objects.get(title="barbar1")
         self.assertEqual(entry.author, None)
         self.assertEqual(entry.updated_by, None)

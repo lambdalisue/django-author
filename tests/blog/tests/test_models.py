@@ -31,52 +31,53 @@ from django.test import TestCase
 class EntryModelTestCase(TestCase):
     def test_creation(self):
         """blog.Entry: creation works correctly"""
-        entry = models.Entry(title='foo', body='bar')
+        entry = models.Entry(title="foo", body="bar")
         entry.full_clean()
-        self.assertEqual(entry.title, 'foo')
-        self.assertEqual(entry.body, 'bar')
+        self.assertEqual(entry.title, "foo")
+        self.assertEqual(entry.body, "bar")
 
         entry.save()
         entry = models.Entry.objects.get(pk=entry.pk)
-        self.assertEqual(entry.title, 'foo')
-        self.assertEqual(entry.body, 'bar')
+        self.assertEqual(entry.title, "foo")
+        self.assertEqual(entry.body, "bar")
 
     def test_modification(self):
         """blog.Entry: modification works correctly"""
-        entry = models.Entry(title='foo', body='bar')
+        entry = models.Entry(title="foo", body="bar")
         entry.full_clean()
         entry.save()
 
-        entry.title = 'foofoo'
-        entry.body = 'barbar'
+        entry.title = "foofoo"
+        entry.body = "barbar"
         entry.full_clean()
         entry.save()
         entry = models.Entry.objects.get(pk=entry.pk)
-        self.assertEqual(entry.title, 'foofoo')
-        self.assertEqual(entry.body, 'barbar')
+        self.assertEqual(entry.title, "foofoo")
+        self.assertEqual(entry.body, "barbar")
 
     def test_validation(self):
         """blog.Entry: validation works correctly"""
         from django.core.exceptions import ValidationError
-        entry = models.Entry(title='foo', body='bar')
+
+        entry = models.Entry(title="foo", body="bar")
         entry.full_clean()
         entry.save()
 
-        entry.title = ''
+        entry.title = ""
         self.assertRaises(ValidationError, entry.full_clean)
 
-        entry.body = ''
+        entry.body = ""
         self.assertRaises(ValidationError, entry.full_clean)
 
-        entry.title = '*' * 100
+        entry.title = "*" * 100
         self.assertRaises(ValidationError, entry.full_clean)
 
-        entry.title = '!#$%&()'
+        entry.title = "!#$%&()"
         self.assertRaises(ValidationError, entry.full_clean)
 
     def test_deletion(self):
         """blog.Entry: deletion works correctly"""
-        entry = models.Entry(title='foo', body='bar')
+        entry = models.Entry(title="foo", body="bar")
         entry.full_clean()
         entry.save()
 
@@ -86,7 +87,7 @@ class EntryModelTestCase(TestCase):
 
     def test_with_author(self):
         """blog.Entry: with_author works correctly"""
-        entry = models.Entry(title='foo', body='bar')
+        entry = models.Entry(title="foo", body="bar")
         entry.full_clean()
         entry.save()
 

@@ -48,7 +48,7 @@ class EntryListView(ListView):
 
 class EntryDetailView(DetailView):
     model = Entry
-    slug_field = 'title'
+    slug_field = "title"
 
 
 class EntryCreateView(CreateView):
@@ -65,4 +65,4 @@ class EntryDeleteView(DeleteView):
     model = Entry
 
     def get_success_url(self):
-        return reverse('blog-entry-list')
+        return reverse("blog-entry-list")

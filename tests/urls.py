@@ -6,16 +6,16 @@ from django.urls import include, path
 admin.autodiscover()
 
 urlpatterns = (
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     path(
-        'registration/login/',
+        "registration/login/",
         login,
-        name='login',
+        name="login",
     ),
     path(
-        'registration/logout/',
+        "registration/logout/",
         logout,
-        name='logout',
+        name="logout",
     ),
-    path('', include('blog.urls')),
+    path("", include("blog.urls")),
 )

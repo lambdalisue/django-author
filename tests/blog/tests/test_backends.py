@@ -40,53 +40,55 @@ class AuthorBackendTestCase(TestCase):
     )
     def test_improperly_configured(self):
         """Test, that if author backend is missing, it throws error"""
-        entry = models.Entry(title='foo', body='bar')
+        entry = models.Entry(title="foo", body="bar")
         with self.assertRaisesRegex(
             ImproperlyConfigured,
             r'Error "author.middlewares.AuthorDefaultBackendMiddleware" is not found '
-            'in MIDDLEWARE_CLASSES nor MIDDLEWARE. It is required to use AuthorDefaultBackend',
+            "in MIDDLEWARE_CLASSES nor MIDDLEWARE. It is required to use AuthorDefaultBackend",
         ):
             entry.save()
 
 
 @override_settings(
-    AUTHOR_BACKEND='author.backends.AuthorSystemUserBackend',
+    AUTHOR_BACKEND="author.backends.AuthorSystemUserBackend",
 )
 class AuthorSystemUserBackendTestCase(TestCase):
     def test_save(self):
         """Test that AuthorSystemBackend saves with default user"""
         user = User.objects.create(pk=1)
-        entry = models.Entry(title='foo', body='bar')
+        entry = models.Entry(title="foo", body="bar")
         entry.save()
         self.assertEqual(entry.author, user)
 
     def test_with_request(self):
-        admin = User.objects.create(pk=1, username='admin', password=make_password('password'))
+        admin = User.objects.create(
+            pk=1, username="admin", password=make_password("password")
+        )
         try:  # Django >= 1.9
             self.client.force_login(admin)
         except AttributeError:
-            assert self.client.login(username='admin', password='password')
+            assert self.client.login(username="admin", password="password")
         response = self.client.post(
-            '/create/',
+            "/create/",
             {
-                'title': 'barbar',
-                'body': 'barbar',
+                "title": "barbar",
+                "body": "barbar",
             },
         )
         # if post success, redirect occur
         self.assertEqual(response.status_code, 302)
 
-        entry = models.Entry.objects.get(title='barbar')
+        entry = models.Entry.objects.get(title="barbar")
         self.assertEqual(entry.author, admin)
         self.assertEqual(entry.updated_by, admin)
 
 
 class AuthorBackendSettingsTestCase(TestCase):
     @override_settings(
-        AUTHOR_BACKEND='author.backends.FooBackend',
+        AUTHOR_BACKEND="author.backends.FooBackend",
     )
     def test_unexistent_backend(self):
-        entry = models.Entry(title='foo', body='bar')
+        entry = models.Entry(title="foo", body="bar")
         with self.assertRaisesRegex(
             ImproperlyConfigured,
             'Module "author.backends" does not define a "FooBackend" author backend',
@@ -97,7 +99,7 @@ class AuthorBackendSettingsTestCase(TestCase):
         AUTHOR_BACKEND=1234,
     )
     def test_wrong_class(self):
-        entry = models.Entry(title='foo', body='bar')
+        entry = models.Entry(title="foo", body="bar")
         with self.assertRaisesRegex(
             ImproperlyConfigured,
             'Error author backend must have "get_user" method Please define it in 1234',
@@ -105,10 +107,10 @@ class AuthorBackendSettingsTestCase(TestCase):
             entry.save()
 
     @override_settings(
-        AUTHOR_BACKEND='foo',
+        AUTHOR_BACKEND="foo",
     )
     def test_error_importing(self):
-        entry = models.Entry(title='foo', body='bar')
+        entry = models.Entry(title="foo", body="bar")
         with self.assertRaisesRegex(
             ImproperlyConfigured,
             r'Error importing author backend foo: "No module named \'?fo\'?',
@@ -116,12 +118,12 @@ class AuthorBackendSettingsTestCase(TestCase):
             entry.save()
 
     @override_settings(
-        AUTHOR_BACKEND='.',
+        AUTHOR_BACKEND=".",
     )
     def test_value_error(self):
-        entry = models.Entry(title='foo', body='bar')
+        entry = models.Entry(title="foo", body="bar")
         with self.assertRaisesRegex(
             ImproperlyConfigured,
-            'Error importing author backend. Is AUTHOR_BACKEND a correctly defined?',
+            "Error importing author backend. Is AUTHOR_BACKEND a correctly defined?",
         ):
             entry.save()
