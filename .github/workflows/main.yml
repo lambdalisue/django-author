@@ -94,7 +94,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install
         run: |
-          pip install flake8 flake8-import-order flake8-blind-except flake8-tidy-imports flake8-commas flake8-trailing-commas flake8-comprehensions
+          pip install flake8 flake8-import-order flake8-blind-except flake8-tidy-imports flake8-comprehensions
           pip install isort black mypy
       - name: Running Flake8
         run: flake8 --application-import-names=author
@@ -102,6 +102,5 @@ jobs:
         run: python -m isort . --check-only --diff
       - name: Running mypy
         run: mypy author --ignore-missing-imports
-      # TODO: enable and reformat black when no PRs are waiting
-      # - name: Running black
-      #   run: black --check .
+      - name: Running black
+        run: black --check .
